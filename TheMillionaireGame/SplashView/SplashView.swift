@@ -53,6 +53,7 @@ struct SplashView: View {
                 Image("logo")
                     .resizable()
                     .frame(width: logoWidth, height: logoHeight)
+                    .shadow(color: Color.black.opacity(1.0), radius: 67)
                     .position(x: centerX, y: centerY)
             }
         }
