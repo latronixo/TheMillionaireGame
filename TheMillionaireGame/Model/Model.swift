@@ -7,11 +7,11 @@
 
 import Foundation
 
-struct QuestionResponse: Decodable {
+struct QuestionResponse: Codable {
     let results: [Question]
 }
 
-struct Question: Decodable {
+struct Question: Codable {
     let type: String
     let difficulty: String
     let category: String

@@ -25,19 +25,44 @@ final class GameViewModel: ObservableObject {
             let questions = try await NetworkService.shared.fetchQuestions()
             await MainActor.run {
                 self.questions = questions
+                self.saveQuestionsToUserDefaults(questions)
                 self.nextQuestion()
                 self.isLoading = false
             }
         } catch {
-            await MainActor.run { self.errorMessage = error.localizedDescription }
+            if let cachedQuestions = self.loadQuestionsFromUserDefaults() {
+                await MainActor.run {
+                    self.questions = cachedQuestions
+                    self.nextQuestion()
+                    self.isLoading = false
+                }
+            } else {
+                self.errorMessage = error.localizedDescription
+                self.isLoading = false
+            }
         }
     }
     
+    func saveQuestionsToUserDefaults(_ questions: [Question]) {
+        if let data = try? JSONEncoder().encode(questions) {
+            UserDefaults.standard.set(data, forKey: "cachedQuestions")
+        }
+    }
+    
+    func loadQuestionsFromUserDefaults() -> [Question]? {
+        if let data = UserDefaults.standard.data(forKey: "cachedQuestions"), let questions = try? JSONDecoder().decode([Question].self, from: data) {
+            return questions
+        }
+        return nil
+    }
+    
     func nextQuestion() {
-        numberCurrentQuestion += 1
-        print("numberCurrentQuestion = \(numberCurrentQuestion)")
-        currentTextQuestion = questions[numberCurrentQuestion].question
-        correctAnswer = questions[numberCurrentQuestion].correctAnswer
-        answers = ([correctAnswer] + questions[numberCurrentQuestion].incorrectAnswers).shuffled()
+        if numberCurrentQuestion < 14 {
+            numberCurrentQuestion += 1
+            print("numberCurrentQuestion = \(numberCurrentQuestion)")
+            currentTextQuestion = questions[numberCurrentQuestion].question
+            correctAnswer = questions[numberCurrentQuestion].correctAnswer
+            answers = ([correctAnswer] + questions[numberCurrentQuestion].incorrectAnswers).shuffled()
+        }
     }
 }
