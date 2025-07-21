@@ -22,7 +22,7 @@ class NetworkService {
     }
     
     private func fetchQuestions(for difficulty: String) async throws -> [Question] {
-        let urlString = "https://opentdb.com/api.php?amount=5&category=11&difficulty=\(difficulty)&type=multiple&encode=url3986"
+        let urlString = "https://opentdb.com/api.php?amount=5&difficulty=\(difficulty)&type=multiple"
         
         guard let url = URL(string: urlString) else {
             throw URLError(.badURL)
