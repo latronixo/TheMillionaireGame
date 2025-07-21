@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct QuestionAndAnswerView: View {
+    
     var body: some View {
         VStack(spacing: 70){
             
