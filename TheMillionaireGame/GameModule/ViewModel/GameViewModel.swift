@@ -17,6 +17,8 @@ final class GameViewModel: ObservableObject {
     @Published var answers = ["", "", "", ""]
     @Published var correctAnswer = ""
     let ABCD = ["A: ", "B: ", "C: ", "D: "]
+    
+    let timeKey = "timeKey"
 
     func loadQuestions() async {
         await MainActor.run { self.isLoading = true }
@@ -77,5 +79,11 @@ final class GameViewModel: ObservableObject {
         } else {
             return .white.opacity(0.3)
         }
+    }
+    
+    //MARK: - UserDefaults
+    
+    func saveTimeRemaining(timeRemaining: Double) {
+        UserDefaults.standard.set(timeRemaining, forKey: timeKey)
     }
 }

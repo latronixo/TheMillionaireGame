@@ -37,6 +37,7 @@ struct TimerView: View {
                 .foregroundStyle(vm.setBackground(time: timeRemaining, totalTime: totalTime))
                 .frame(width: 80, height: 45)
         }
+        
         .onReceive(timer){_ in
             guard isActive else {return}
             
@@ -47,12 +48,40 @@ struct TimerView: View {
                     
                 }
             } else {
-                isActive = false
-                timer.upstream.connect().cancel()
+                stopTimer()
             }
-            
-            
         }
+        
+        .onAppear {
+            loadTimeRemaining()
+        }
+        
+        .onDisappear {
+            vm.saveTimeRemaining(timeRemaining: timeRemaining)
+        }
+        
+        .onReceive(NotificationCenter.default.publisher(for: UIApplication.willResignActiveNotification)) { _ in
+            vm.saveTimeRemaining(timeRemaining: timeRemaining)
+        }
+        
+        .onReceive(NotificationCenter.default.publisher(for: UIApplication.willResignActiveNotification)) { _ in
+            loadTimeRemaining()
+        }
+        
+    }
+    
+    //MARK: - Methods
+    
+    private func loadTimeRemaining() {
+        let savedTime = UserDefaults.standard.double(forKey: vm.timeKey)
+        timeRemaining = savedTime > 0 ? savedTime : totalTime
+        isActive = timeRemaining > 0
+    }
+    
+    private func stopTimer() {
+        isActive = false
+        timer.upstream.connect().cancel()
+        UserDefaults.standard.removeObject(forKey: vm.timeKey)
     }
 }
 #Preview {
