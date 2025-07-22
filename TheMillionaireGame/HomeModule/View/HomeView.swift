@@ -1,85 +1,119 @@
 import SwiftUI
 
 struct HomeView: View {
+    // MARK: - UI Constants
+    private enum UI {
+        enum Logo {
+            static let width: CGFloat = 195
+            static let height: CGFloat = 195
+            static let topPadding: CGFloat = 60
+        }
+        enum Title {
+            static let text: String = "Who Wants\nto be a Millionare"
+            static let fontSize: CGFloat = 32
+            static let fontWeight: Font.Weight = .semibold
+            static let fontDesign: Font.Design = .default
+            static let topPadding: CGFloat = 16
+        }
+        enum BestScore {
+            static let text: String = "All-time Best Score"
+            static let fontSize: CGFloat = 16
+            static let fontWeight: Font.Weight = .medium
+            static let fontDesign: Font.Design = .default
+            static let opacity: Double = 0.5
+            static let topPadding: CGFloat = 16
+        }
+        enum Coin {
+            static let imageName: String = "coin"
+            static let width: CGFloat = 40
+            static let height: CGFloat = 40
+        }
+        enum Score {
+            static let text: String = "15,000"
+            static let fontSize: CGFloat = 24
+            static let fontWeight: Font.Weight = .semibold
+            static let fontDesign: Font.Design = .default
+        }
+        enum Button {
+            static let newGameText: String = "New game"
+            static let newGameColor: Color = .yellow
+            static let continueGameText: String = "Continue game"
+            static let continueGameColor: Color = .blue
+            static let width: CGFloat = 350
+            static let height: CGFloat = 62
+            static let continueTopPadding: CGFloat = 8
+        }
+        enum HelpIcon {
+            static let name: String = "help"
+        }
+    }
+
     var body: some View {
         NavigationView {
             ZStack {
-                LinearGradient(
-                    gradient: Gradient(colors: [
-                        Color(red: 0.215, green: 0.298, blue: 0.580),
-                        Color(red: 0.063, green: 0.055, blue: 0.086)
-                    ]),
-                    startPoint: .top,
-                    endPoint: .bottom
-                )
-                .ignoresSafeArea()
+                Image("background")
+                    .resizable()
+                    .scaledToFill()
+                    .ignoresSafeArea()
                 
                 VStack {
                     Image("logo")
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 200, height: 200)
+                        .frame(width: UI.Logo.width, height: UI.Logo.height)
+                        .padding(.top, UI.Logo.topPadding)
                     
-                    Text("Who Wants\nto be a Millionare")
-                        .font(
-                            .system(
-                                size: 32,
-                                weight: .bold,
-                                design: .rounded
-                            )
-                        )
+                    Text(UI.Title.text)
+                        .font(.system(size: UI.Title.fontSize, weight: UI.Title.fontWeight, design: UI.Title.fontDesign))
                         .foregroundColor(.white)
                         .multilineTextAlignment(.center)
-                        .padding(.top, 16)
+                        .padding(.top, UI.Title.topPadding)
                     
-                    
-                    Text("All-time Best Score")
-                        .font(.system(size: 16, weight: .medium, design: .rounded))
+                    Text(UI.BestScore.text)
+                        .font(.system(size: UI.BestScore.fontSize, weight: UI.BestScore.fontWeight, design: UI.BestScore.fontDesign))
                         .foregroundColor(.white)
-                        .opacity(0.5)
+                        .opacity(UI.BestScore.opacity)
                         .multilineTextAlignment(.center)
-                        .padding(.top, 16)
+                        .padding(.top, UI.BestScore.topPadding)
                     
                     HStack {
                         Spacer()
-                        Image("coin")
+                        Image(UI.Coin.imageName)
                             .resizable()
                             .scaledToFit()
-                            .frame(width: 32, height: 32)
+                            .frame(width: UI.Coin.width, height: UI.Coin.height)
                         
-                        
-                        Text("15,000")
-                            .font(.system(size: 24, weight: .bold, design: .rounded))
+                        Text(UI.Score.text)
+                            .font(.system(size: UI.Score.fontSize, weight: UI.Score.fontWeight, design: UI.Score.fontDesign))
                             .foregroundColor(.white)
                         Spacer()
                     }
                     Spacer()
                     HexagonalButton(
-                        text: "New game",
-                        color: .yellow,
-                        width: 250,
-                        height: 50,
-                        action: {
-                        },
+                        text: UI.Button.newGameText,
+                        color: UI.Button.newGameColor,
+                        width: UI.Button.width,
+                        height: UI.Button.height,
+                        action: {},
                         isLeadingText: false
                     )
-                    
                     HexagonalButton(
-                        text: "Continue game",
-                        color: .blue,
-                        width: 250,
-                        height: 50,
-                        action: {
-                        },
+                        text: UI.Button.continueGameText,
+                        color: UI.Button.continueGameColor,
+                        width: UI.Button.width,
+                        height: UI.Button.height,
+                        action: {},
                         isLeadingText: false
                     )
+                    .padding(.top, UI.Button.continueTopPadding)
+                    Spacer()
                 }
                 .padding()
             }
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {}) {
-                        Image("help")
+                        Image(UI.HelpIcon.name)
                             .renderingMode(.original)
                     }
                 }
