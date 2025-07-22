@@ -22,6 +22,7 @@ struct GameView: View {
             VStack(alignment: .center, spacing: 40){
                 HeaderView()
                 TimerView()
+                    .environmentObject(viewModel)
                 VStack(spacing: 60){
                     if viewModel.isLoading {
                         ProgressView("Loading questions...")

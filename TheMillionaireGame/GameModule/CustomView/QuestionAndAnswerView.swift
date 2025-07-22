@@ -9,8 +9,9 @@ import SwiftUI
 
 struct QuestionAndAnswerView: View {
     
+    
     var body: some View {
-        VStack(spacing: 70){
+        VStack(alignment: .center, spacing: 70){
             
             //MARK: - Question
             
@@ -19,20 +20,18 @@ struct QuestionAndAnswerView: View {
                 .font(.system(size: 24))
                 .fontWeight(.bold)
                 .lineLimit(4)
+                .padding(.horizontal)
             
             //MARK: - Buttons
             
             VStack(alignment: .leading, spacing: 70){
-                ForEach(0...3, id: \.self) { section in
-                    Button {
-                        //Add Action
-                    } label: {
-                        Text("Button \(section.description)")
-                            .font(.system(size: 20))
-                            .fontWeight(.bold)
-                            .foregroundStyle(.white)
-                    }
-                }
+//                ForEach(, <#_#>, id: \.self) { section in
+//                    Button {
+//                        //Add Action
+//                    } label: {
+//                        
+//                    }
+//                }
                 
             }
         }

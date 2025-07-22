@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 final class GameViewModel: ObservableObject {
     @Published var questions: [Question] = []
@@ -63,6 +64,18 @@ final class GameViewModel: ObservableObject {
             currentTextQuestion = questions[numberCurrentQuestion].question
             correctAnswer = questions[numberCurrentQuestion].correctAnswer
             answers = ([correctAnswer] + questions[numberCurrentQuestion].incorrectAnswers).shuffled()
+        }
+    }
+    
+    //MARK: - Change BackgroundColor in Timer
+    
+    func setBackground(time: Double, totalTime: Double) -> Color {
+        if time <= 5 {
+            return .red.opacity(0.8)
+        } else if time <= totalTime / 2 {
+            return .yellow.opacity(0.5)
+        } else {
+            return .white.opacity(0.3)
         }
     }
 }
