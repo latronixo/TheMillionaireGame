@@ -51,6 +51,7 @@ struct QuestionPriceRow: View {
                 }
                 .padding(.horizontal, width * 0.15)
                 .foregroundStyle(.white)
+                .font(.system(size: 18, weight: .bold))
             }
         }
     }
