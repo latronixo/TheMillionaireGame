@@ -1,6 +1,8 @@
 import SwiftUI
 
 struct HomeView: View {
+    @State private var showGameView = false
+    @State private var showContinueGameView = false
     // MARK: - UI Constants
     private enum UI {
         enum Logo {
@@ -49,7 +51,7 @@ struct HomeView: View {
     }
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ZStack {
                 Image("background")
                     .resizable()
@@ -90,19 +92,23 @@ struct HomeView: View {
                     }
                     Spacer()
                     HexagonalButton(
-                        text: UI.Button.newGameText,
-                        color: UI.Button.newGameColor,
-                        width: UI.Button.width,
-                        height: UI.Button.height,
-                        action: {},
-                        isLeadingText: false
-                    )
-                    HexagonalButton(
                         text: UI.Button.continueGameText,
                         color: UI.Button.continueGameColor,
                         width: UI.Button.width,
                         height: UI.Button.height,
-                        action: {},
+                        action: {
+                            showContinueGameView = true
+                        },
+                        isLeadingText: false
+                    )
+                    HexagonalButton(
+                        text: UI.Button.newGameText,
+                        color: UI.Button.newGameColor,
+                        width: UI.Button.width,
+                        height: UI.Button.height,
+                        action: {
+                            showGameView = true
+                        },
                         isLeadingText: false
                     )
                     .padding(.top, UI.Button.continueTopPadding)
@@ -117,6 +123,12 @@ struct HomeView: View {
                             .renderingMode(.original)
                     }
                 }
+            }
+            .navigationDestination(isPresented: $showContinueGameView) {
+                GameView()
+            }
+            .navigationDestination(isPresented: $showGameView) {
+                GameView()
             }
         }
     }
