@@ -13,7 +13,7 @@ struct Hexagon: Shape {
         
         let width = rect.width
         let height = rect.height
-        let cornerOffset = width * 0.15
+        let cornerOffset = width * 0.10
        
         let midLeft = CGPoint(x: 0, y: height / 2)
         let topLeft = CGPoint(x: cornerOffset, y: 0)
@@ -54,6 +54,7 @@ struct Hexagon: Shape {
             control2: CGPoint(x: cornerOffset / 2, y: height)
         )
         
+        path.closeSubpath()
         return path
     }
 }
