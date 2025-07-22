@@ -27,7 +27,7 @@ struct QuestionPriceRow: View {
                     
                     Text("\(item.currency.amount, format: .currency(code: item.currency.code).precision(.fractionLength(0)))")
                 }
-                .padding(.horizontal, width * 0.1)
+                .padding(.horizontal, width * 0.15)
                 .foregroundStyle(.white)
             }
         }
