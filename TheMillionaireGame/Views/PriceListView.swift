@@ -1,5 +1,5 @@
 //
-//  QuestionPricesView.swift
+//  PriceListView.swift
 //  TheMillionaireGame
 //
 //  Created by Mikhail Ustyantsev on 22.07.2025.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct QuestionPricesView: View {
+struct PriceListView: View {
     
     let currentAnsweredQuestion: Int //данные о последнем правильно отвеченном вопросе получим из вьюмодели или из постоянного хранилища - в зависимости от выбранной реализации
     
@@ -35,6 +35,6 @@ struct QuestionPricesView: View {
 }
 
 #Preview {
-    QuestionPricesView(currentAnsweredQuestion: 7)
+    PriceListView(currentAnsweredQuestion: 7)
 }
 
