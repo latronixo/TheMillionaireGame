@@ -9,6 +9,8 @@ import SwiftUI
 
 struct QuestionPricesView: View {
     
+    let currentAnsweredQuestion: Int //данные о последнем правильно отвеченном вопросе получим из вьюмодели или из постоянного хранилища - в зависимости от выбранной реализации
+    
     var body: some View {
         ZStack {
             LinearGradient(colors: [Color(red: 55/255, green: 76/255, blue: 148/255), Color(red: 16/255, green: 14/255, blue: 22/255)], startPoint: .topLeading, endPoint: .bottomTrailing)
@@ -22,7 +24,8 @@ struct QuestionPricesView: View {
                         QuestionPriceRow(
                             item: question,
                             height: rowHeight,
-                            width: geo.width * 0.9
+                            width: geo.width * 0.9,
+                            isCurrentQuestion: question.id == currentAnsweredQuestion
                         )
                     }
                 }
@@ -32,6 +35,6 @@ struct QuestionPricesView: View {
 }
 
 #Preview {
-    QuestionPricesView()
+    QuestionPricesView(currentAnsweredQuestion: 7)
 }
 

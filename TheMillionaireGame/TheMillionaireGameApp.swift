@@ -11,7 +11,7 @@ import SwiftUI
 struct TheMillionaireGameApp: App {
     var body: some Scene {
         WindowGroup {
-            QuestionPricesView()
+            QuestionPricesView(currentAnsweredQuestion: 7)
         }
     }
 }
