@@ -1,0 +1,124 @@
+
+[
+    {
+        "id": 1,
+        "difficulty": "easy",
+        "currency": {
+            "code": "USD",
+            "amount": 500
+        }
+    },
+    {
+        "id": 2,
+        "difficulty": "easy",
+        "currency": {
+            "code": "USD",
+            "amount": 1000
+        }
+    },
+    {
+        "id": 3,
+        "difficulty": "easy",
+        "currency": {
+            "code": "USD",
+            "amount": 2000
+        }
+    },
+    {
+        "id": 4,
+        "difficulty": "easy",
+        "currency": {
+            "code": "USD",
+            "amount": 3000
+        }
+    },
+    {
+        "id": 5,
+        "difficulty": "easy",
+        "currency": {
+            "code": "USD",
+            "amount": 5000
+        }
+    },
+    {
+        "id": 6,
+        "difficulty": "medium",
+        "currency": {
+            "code": "USD",
+            "amount": 7500
+        }
+    },
+    {
+        "id": 7,
+        "difficulty": "medium",
+        "currency": {
+            "code": "USD",
+            "amount": 10000
+        }
+    },
+    {
+        "id": 8,
+        "difficulty": "medium",
+        "currency": {
+            "code": "USD",
+            "amount": 12500
+        }
+    },
+    {
+        "id": 9,
+        "difficulty": "medium",
+        "currency": {
+            "code": "USD",
+            "amount": 15000
+        }
+    },
+    {
+        "id": 10,
+        "difficulty": "medium",
+        "currency": {
+            "code": "USD",
+            "amount": 25000
+        }
+    },
+    {
+        "id": 11,
+        "difficulty": "hard",
+        "currency": {
+            "code": "USD",
+            "amount": 50000
+        }
+    },
+    {
+        "id": 12,
+        "difficulty": "hard",
+        "currency": {
+            "code": "USD",
+            "amount": 100000
+        }
+    },
+    {
+        "id": 13,
+        "difficulty": "hard",
+        "currency": {
+            "code": "USD",
+            "amount": 250000
+        }
+    },
+    {
+        "id": 14,
+        "difficulty": "hard",
+        "currency": {
+            "code": "USD",
+            "amount": 500000
+        }
+    },
+    {
+        "id": 15,
+        "difficulty": "hard",
+        "currency": {
+            "code": "USD",
+            "amount": 1000000
+        }
+    }
+]
+
