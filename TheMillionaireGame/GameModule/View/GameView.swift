@@ -57,8 +57,10 @@ struct GameView: View {
                 Spacer()
             }
         }
-        .task {
-            await viewModel.loadQuestions()
+        .task(id: viewModel.questions) {
+            if viewModel.questions.isEmpty {
+                await viewModel.loadQuestions()
+            }
         }
     }
 }
