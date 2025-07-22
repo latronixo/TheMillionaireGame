@@ -34,12 +34,17 @@ struct QuestionPriceRow: View {
                 Hexagon()
                     .fill(
                         LinearGradient(
-                            gradient: Gradient(colors: [hexagonColor, hexagonColor.opacity(0.3)]),
+                            gradient: Gradient(
+                                colors: [
+                                    hexagonColor,
+                                    hexagonColor.opacity(0.3)
+                                ]
+                            ),
                             startPoint: .top,
                             endPoint: .bottom
                         )
                     )
-                    .stroke(Color.white, lineWidth: 2)
+                    .stroke(Color.white, lineWidth: 4)
                     .frame(width: width, height: height)
                 
                 HStack {

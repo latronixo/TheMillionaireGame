@@ -54,6 +54,7 @@ struct Hexagon: Shape {
             control2: CGPoint(x: cornerOffset / 2, y: height)
         )
         
+        path.closeSubpath()
         return path
     }
 }
