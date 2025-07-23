@@ -42,9 +42,10 @@ struct QuestionPriceRow: View {
                             ),
                             startPoint: .top,
                             endPoint: .bottom
-                        )
+                        ),
+                        strokeBorder: Color.white,
+                        lineWidth: 4
                     )
-                    .stroke(Color.white, lineWidth: 4)
                     .frame(width: width, height: height)
                 
                 HStack {

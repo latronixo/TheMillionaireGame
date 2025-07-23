@@ -29,8 +29,7 @@ struct HexagonalButton: View {
                 } label: {
                     ZStack(alignment: isLeadingText ? .leading : .center) {
                         Hexagon()
-                            .fill(color)
-                            .stroke(Color.white, lineWidth: 2)
+                            .fill(color, strokeBorder: Color.white, lineWidth: 2)
                         
                         Text(text)
                             .font(.system(size: 24, weight: .bold, design: .rounded))
