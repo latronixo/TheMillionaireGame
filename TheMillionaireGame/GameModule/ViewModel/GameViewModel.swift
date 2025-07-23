@@ -91,7 +91,9 @@ final class GameViewModel: ObservableObject {
     func answerTapped(_ index: Int) {
         let userAnswer = answers[index]
         
-        ///играет в течение 5 секунд интригующая музыка "otvet-prinyat.mp3"
+        ///надо проиграть в течение 5 секунд интригующая музыка "otvet-prinyat.mp3"
+        
+        ///надо остановить таймер
         
         //спустя 5 секунд
         DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
@@ -99,10 +101,10 @@ final class GameViewModel: ObservableObject {
             //let isAnswerRight = userAnswer == self.correctAnswer
             
             if userAnswer == self.correctAnswer {
-                ///выбранный ответ мигает зеленым в течение 3 секунд
+                ///надо чтобы выбранный ответ мигал зеленым в течение 3 секунд
                 
                 //DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                ///кнопка мигает зеленым в течение 3 секунд
+                ///надо чтобы кнопка мигала зеленым в течение 3 секунд
                 //}
                 
                 //показываем PriceListView через 3 секунды
@@ -118,10 +120,10 @@ final class GameViewModel: ObservableObject {
                 
                 print("Правильный ответ")
             } else {
-                ///выбранный ответ мигает красным в течение 3 секунд
+                ///надо чтобы выбранный ответ мигал красным в течение 3 секунд
                 
                 //DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                ///кнопка мигает красным в течение 3 секунд
+                ///надо чтобы кнопка мигала красным в течение 3 секунд
                 //}
                 
                 //показываем isGameOver через 3 секунды
