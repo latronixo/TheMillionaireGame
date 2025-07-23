@@ -41,7 +41,7 @@ struct GameView: View {
                         VStack(alignment: .leading, spacing: 70) {
                             ForEach(0...3, id: \.self) { index in
                                 Button {
-                                    viewModel.nextQuestion()
+                                    viewModel.userGaveTheAnswer(index)
                                 } label: {
                                     Text("\(viewModel.ABCD[index]) \(viewModel.answers[index])")
                                         .font(.system(size: 20))

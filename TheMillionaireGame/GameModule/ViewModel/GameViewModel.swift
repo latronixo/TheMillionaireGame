@@ -74,12 +74,31 @@ final class GameViewModel: ObservableObject {
         }
     }
     
-    func nextQuestion() {
+    private func nextQuestion() {
         guard numberCurrentQuestion + 1 < questions.count else { return }
         numberCurrentQuestion += 1
         currentTextQuestion = questions[numberCurrentQuestion].question.htmlDecoded //кавычки API останутся кавычками, а не &quot;
         correctAnswer = questions[numberCurrentQuestion].correctAnswer.htmlDecoded //кавычки API останутся кавычками, а не &quot;
+        print("Вопрос \(numberCurrentQuestion). Правильный ответ: \(correctAnswer)")
         answers = ([correctAnswer] + questions[numberCurrentQuestion].incorrectAnswers.map{ $0.htmlDecoded } ).shuffled() //кавычки API останутся кавычками, а не &quot;
+    }
+    
+    func userGaveTheAnswer(_ index: Int) {
+        let userAnswer = answers[index]
+        if userAnswer == correctAnswer {
+            //кнопка мигает зеленым
+            
+            //показываем PriceListView
+            
+            nextQuestion()
+            print("Правильный ответ")
+        } else {
+            //кнопка мигает красным
+            
+            
+            print("Неправильный ответ")
+
+        }
     }
     
     func getQuestionsDefault() -> [Question] {
