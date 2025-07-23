@@ -1,6 +1,10 @@
 import SwiftUI
 
 struct HomeView: View {
+    
+    @EnvironmentObject var viewModel: QuizViewModel
+    @Binding var currentScreen: MainScreenDestination
+    
     @State private var showGameView = false
     @State private var showContinueGameView = false
     @State private var showRules = false
@@ -108,7 +112,7 @@ struct HomeView: View {
                         width: UI.Button.width,
                         height: UI.Button.height,
                         action: {
-                            showGameView = true
+                            currentScreen = .priceList
                         },
                         isLeadingText: false
                     )
@@ -119,20 +123,13 @@ struct HomeView: View {
             }
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: { showRules = true }) {
+                    Button(action: {
+                        currentScreen = .rules
+                    }) {
                         Image(UI.HelpIcon.name)
                             .renderingMode(.original)
                     }
                 }
-            }
-            .navigationDestination(isPresented: $showContinueGameView) {
-                GameView()
-            }
-            .navigationDestination(isPresented: $showGameView) {
-                GameView()
-            }
-            .sheet(isPresented: $showRules) {
-                RulesView()
             }
         }
     }
@@ -140,6 +137,7 @@ struct HomeView: View {
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
-        HomeView()
+        HomeView(currentScreen: .constant(.home))
+            .environmentObject(QuizViewModel())
     }
 } 

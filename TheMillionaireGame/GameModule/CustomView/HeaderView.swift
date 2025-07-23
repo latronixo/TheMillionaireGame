@@ -8,10 +8,13 @@
 import SwiftUI
 
 struct HeaderView: View {
+    @EnvironmentObject var viewModel: QuizViewModel
+    @Binding var currentScreen: MainScreenDestination
+    
     var body: some View {
         HStack(alignment: .center){
             Button {
-                // dismiss
+                currentScreen = .home
             } label: {
                 Image(systemName: "arrow.left")
                     .resizable()
@@ -37,7 +40,7 @@ struct HeaderView: View {
             Spacer()
             
             Button {
-                // ???
+                currentScreen = .priceList
             } label: {
                 Image(systemName: "align.horizontal.right")
                     .resizable()
@@ -51,5 +54,6 @@ struct HeaderView: View {
 }
 
 #Preview {
-    HeaderView()
+    HeaderView(currentScreen: .constant(.game))
+        .environmentObject(QuizViewModel())
 }

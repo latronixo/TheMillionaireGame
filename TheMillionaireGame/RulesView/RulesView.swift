@@ -126,5 +126,6 @@ struct RulesView: View {
 }
 
 #Preview {
-    RulesView()
+    RulesView(currentScreen: .constant(.rules))
+        .environmentObject(QuizViewModel())
 }
