@@ -8,10 +8,12 @@
 import SwiftUI
 
 struct HeaderView: View {
+    @Environment(\.dismiss) private var dismiss
+
     var body: some View {
         HStack(alignment: .center){
             Button {
-                // dismiss
+                dismiss()
             } label: {
                 Image(systemName: "arrow.left")
                     .resizable()

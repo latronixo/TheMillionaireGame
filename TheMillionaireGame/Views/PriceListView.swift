@@ -50,7 +50,7 @@ struct PriceListView: View {
                         .offset(y: -outerGeo.width * 0.06)
                 }
             }
-        }
+        }.navigationBarHidden(true)
     }
 }
 

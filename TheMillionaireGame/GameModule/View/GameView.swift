@@ -60,6 +60,7 @@ struct GameView: View {
         .task {
             await viewModel.loadQuestions()
         }
+        .navigationBarHidden(true)
     }
 }
 
