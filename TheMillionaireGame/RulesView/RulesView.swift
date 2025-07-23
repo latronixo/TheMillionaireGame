@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct RulesView: View {
+    @EnvironmentObject var viewModel: QuizViewModel
+    @Binding var currentScreen: MainScreenDestination
     @Environment(\.presentationMode) var presentationMode
     
     private let backgroundColor = Color(red: 0.192, green: 0.204, blue: 0.271)
