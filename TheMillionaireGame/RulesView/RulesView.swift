@@ -8,11 +8,25 @@
 import SwiftUI
 
 struct RulesView: View {
+    @EnvironmentObject var viewModel: QuizViewModel
+    @Binding var currentScreen: MainScreenDestination
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            HStack {
+                Button(action: {
+                    self.currentScreen = .home
+                }) {
+                    Text("Back")
+                }
+            }
+            
+            Text("Rules go here!")
+        }
     }
 }
 
 #Preview {
-    RulesView()
+    RulesView(currentScreen: .constant(.rules))
+        .environmentObject(QuizViewModel())
 }

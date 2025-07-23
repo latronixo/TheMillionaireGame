@@ -9,7 +9,7 @@ import SwiftUI
 
 struct TimerView: View {
     
-    @EnvironmentObject var vm: GameViewModel
+    @EnvironmentObject var vm: QuizViewModel
     
     let totalTime: Double = 30
     @State private var timeRemaining: Double = 30
@@ -87,5 +87,5 @@ struct TimerView: View {
 #Preview {
     TimerView()
         .preferredColorScheme(.dark)
-        .environmentObject(GameViewModel())
+        .environmentObject(QuizViewModel())
 }

@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct PriceListView: View {
+    @EnvironmentObject var viewModel: QuizViewModel
+    @Binding var currentScreen: MainScreenDestination
     
     let currentQuestion: Int //данные о текущем вопросе получим из вьюмодели или из постоянного хранилища - в зависимости от выбранной реализации
     
@@ -20,8 +22,16 @@ struct PriceListView: View {
                 ZStack(alignment: .top) {
                     
                     VStack {
-                        Spacer()
-                            .frame(height: outerGeo.height * 0.15)
+                        HStack {
+                            Button("<--To game") {
+                                currentScreen = .game
+                            }
+                            .foregroundStyle(.yellow)
+                            .padding(.leading, outerGeo.width * 0.05)
+                            
+                            Spacer()
+                                .frame(height: outerGeo.height * 0.15)
+                        }
                         
                         GeometryReader { innerGeo in
                             
@@ -44,10 +54,10 @@ struct PriceListView: View {
                     Image("logo")
                         .resizable()
                         .frame(
-                            width: outerGeo.width * 0.5,
-                            height: outerGeo.width * 0.55
+                            width: outerGeo.width * 0.3,
+                            height: outerGeo.width * 0.28
                         )
-                        .offset(y: -outerGeo.width * 0.06)
+                        .offset(y: outerGeo.width * 0.04)
                 }
             }
         }
@@ -55,6 +65,7 @@ struct PriceListView: View {
 }
 
 #Preview {
-    PriceListView(currentQuestion: 7)
+    PriceListView(currentScreen: .constant(.priceList), currentQuestion: 7)
+        .environmentObject(QuizViewModel())
 }
 
