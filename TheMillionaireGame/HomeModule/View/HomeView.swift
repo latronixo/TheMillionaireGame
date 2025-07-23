@@ -3,6 +3,7 @@ import SwiftUI
 struct HomeView: View {
     @State private var showGameView = false
     @State private var showContinueGameView = false
+    @State private var showRules = false
     // MARK: - UI Constants
     private enum UI {
         enum Logo {
@@ -118,7 +119,7 @@ struct HomeView: View {
             }
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: {}) {
+                    Button(action: { showRules = true }) {
                         Image(UI.HelpIcon.name)
                             .renderingMode(.original)
                     }
@@ -129,6 +130,9 @@ struct HomeView: View {
             }
             .navigationDestination(isPresented: $showGameView) {
                 GameView()
+            }
+            .sheet(isPresented: $showRules) {
+                RulesView()
             }
         }
     }
