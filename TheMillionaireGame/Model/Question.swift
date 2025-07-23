@@ -11,7 +11,7 @@ struct QuestionResponse: Codable {
     let results: [Question]
 }
 
-struct Question: Codable {
+struct Question: Codable, Equatable {
     let type: String
     let difficulty: String
     let category: String
@@ -27,4 +27,10 @@ struct Question: Codable {
         case correctAnswer = "correct_answer"
         case incorrectAnswers = "incorrect_answers"
     }
+}
+
+enum difficulty {
+    case easy
+    case medium
+    case hard
 }
