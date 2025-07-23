@@ -13,10 +13,15 @@ final class GameViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var errorMessage: String? = nil
     @Published var currentTextQuestion = ""
-    @Published var numberCurrentQuestion = -1
+    var numberCurrentQuestion = -1
     @Published var answers = ["", "", "", ""]
     @Published var correctAnswer = ""
-    //@Published var difficultQuestion = "Easy"
+    var difficultQuestion: String {                 //для подсказки другу
+        questions[numberCurrentQuestion].difficulty
+    }
+    @Published var showPriceList = false
+    @Published var isGameOver = false
+    
     
     let ABCD = ["A: ", "B: ", "C: ", "D: "]
     
@@ -83,21 +88,50 @@ final class GameViewModel: ObservableObject {
         answers = ([correctAnswer] + questions[numberCurrentQuestion].incorrectAnswers.map{ $0.htmlDecoded } ).shuffled() //кавычки API останутся кавычками, а не &quot;
     }
     
-    func userGaveTheAnswer(_ index: Int) {
+    func answerTapped(_ index: Int) {
         let userAnswer = answers[index]
-        if userAnswer == correctAnswer {
-            //кнопка мигает зеленым
+        
+        ///играет в течение 5 секунд интригующая музыка "otvet-prinyat.mp3"
+        
+        //спустя 5 секунд
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
             
-            //показываем PriceListView
+            //let isAnswerRight = userAnswer == self.correctAnswer
             
-            nextQuestion()
-            print("Правильный ответ")
-        } else {
-            //кнопка мигает красным
-            
-            
-            print("Неправильный ответ")
-
+            if userAnswer == self.correctAnswer {
+                ///выбранный ответ мигает зеленым в течение 3 секунд
+                
+                //DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                ///кнопка мигает зеленым в течение 3 секунд
+                //}
+                
+                //показываем PriceListView через 3 секунды
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                    self.showPriceList = true
+                    
+                    //через 3 секунды закрываем PriceListView
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                        self.showPriceList = false
+                        self.nextQuestion()
+                    }
+                }
+                
+                print("Правильный ответ")
+            } else {
+                ///выбранный ответ мигает красным в течение 3 секунд
+                
+                //DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                ///кнопка мигает красным в течение 3 секунд
+                //}
+                
+                //показываем isGameOver через 3 секунды
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                    self.isGameOver = true
+                }
+                
+                print("Неправильный ответ")
+                
+            }
         }
     }
     

@@ -37,11 +37,11 @@ struct GameView: View {
                             .font(.system(size: 24))
                             .fontWeight(.bold)
                             .lineLimit(4)
-
+                        
                         VStack(alignment: .leading, spacing: 70) {
                             ForEach(0...3, id: \.self) { index in
                                 Button {
-                                    viewModel.userGaveTheAnswer(index)
+                                    viewModel.answerTapped(index)
                                 } label: {
                                     Text("\(viewModel.ABCD[index]) \(viewModel.answers[index])")
                                         .font(.system(size: 20))
@@ -62,6 +62,13 @@ struct GameView: View {
                 await viewModel.loadQuestions()
             }
         }
+        .fullScreenCover(isPresented: $viewModel.showPriceList) {
+            PriceListView(currentQuestion: viewModel.numberCurrentQuestion)
+        }
+        .navigationDestination(isPresented: $viewModel.isGameOver) {
+            HomeView()
+        }
+        .navigationBarHidden(true)
     }
 }
 
