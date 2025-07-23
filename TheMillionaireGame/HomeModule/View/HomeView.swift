@@ -111,7 +111,7 @@ struct HomeView: View {
                         width: UI.Button.width,
                         height: UI.Button.height,
                         action: {
-                            currentScreen = .game
+                            currentScreen = .priceList
                         },
                         isLeadingText: false
                     )

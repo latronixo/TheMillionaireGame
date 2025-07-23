@@ -35,7 +35,7 @@ struct MainScreenView: View {
                             .environmentObject(viewModel)
                     case .priceList:
                         PriceListView(currentScreen: $currentScreen, currentQuestion: viewModel.numberCurrentQuestion)
-                            .transition(.slide)
+                            .transition(.opacity)
                             .environmentObject(viewModel)
                     case .gameOver:
                         GameOver(currentScreen: $currentScreen)

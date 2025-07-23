@@ -22,16 +22,8 @@ struct PriceListView: View {
                 ZStack(alignment: .top) {
                     
                     VStack {
-                        HStack {
-                            Button("<--To game") {
-                                currentScreen = .game
-                            }
-                            .foregroundStyle(.yellow)
-                            .padding(.leading, outerGeo.width * 0.05)
-                            
-                            Spacer()
-                                .frame(height: outerGeo.height * 0.15)
-                        }
+                        Spacer()
+                            .frame(height: outerGeo.height * 0.15)
                         
                         GeometryReader { innerGeo in
                             
@@ -48,6 +40,11 @@ struct PriceListView: View {
                                 }
                             }
                         }
+                        
+                        Button("Продолжить") {
+                            currentScreen = .game
+                        }
+                        .foregroundStyle(.yellow)
                     }
                     
                     
