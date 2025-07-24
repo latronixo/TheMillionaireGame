@@ -3,10 +3,16 @@ import SwiftUI
 struct HomeView: View {
     let level: Int?
     @StateObject private var viewModel: HomeViewModel
-    
-    init(level: Int? = nil) {
+   // @EnvironmentObject var viewModel: QuizViewModel
+    @Binding var currentScreen: MainScreenDestination
+//    @State private var showGameView = false
+//    @State private var showContinueGameView = false
+//    @State private var showRules = false
+//
+    init(level: Int? = nil, currentScreen: Binding<MainScreenDestination>? = nil) {
         self.level = level
         _viewModel = StateObject(wrappedValue: HomeViewModel(level: level))
+        _currentScreen = currentScreen ?? .constant(.home)
     }
     
     var body: some View {
@@ -84,7 +90,8 @@ struct HomeView: View {
                         width: UI.Button.width,
                         height: UI.Button.height,
                         action: {
-                            viewModel.startNewGame()
+        //                    viewModel.startNewGame()
+                            currentScreen = .priceList
                         },
                         isLeadingText: false
                     )
@@ -105,21 +112,27 @@ struct HomeView: View {
             }
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: { viewModel.showRulesSheet = true }) {
+
+                   // Button(action: { viewModel.showRulesSheet = true }) {
+
+                    Button(action: {
+                        currentScreen = .rules
+                    }) {
                         Image(UI.HelpIcon.name)
                             .renderingMode(.original)
                     }
                 }
             }
-            .sheet(isPresented: $viewModel.showRulesSheet) {
-                RulesView()
-            }
-            .navigationDestination(isPresented: $viewModel.showGameView) {
-                PriceListView(currentQuestion: 1)
-            }
-            .navigationDestination(isPresented: $viewModel.hasUnfinishedGame) {
-                GameView()
-            }
+
+//            .sheet(isPresented: $viewModel.showRulesSheet) {
+//                RulesView()
+//            }
+//            .navigationDestination(isPresented: $viewModel.showGameView) {
+//                PriceListView(currentQuestion: 1)
+//            }
+//            .navigationDestination(isPresented: $viewModel.hasUnfinishedGame) {
+//                GameView()
+//            }
         }
     }
 }

@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct PriceListView: View {
+    @EnvironmentObject var viewModel: QuizViewModel
+    @Binding var currentScreen: MainScreenDestination
     
     let currentQuestion: Int //данные о текущем вопросе получим из вьюмодели или из постоянного хранилища - в зависимости от выбранной реализации
     
@@ -38,16 +40,21 @@ struct PriceListView: View {
                                 }
                             }
                         }
+                        
+                        Button("Продолжить") {
+                            currentScreen = .game
+                        }
+                        .foregroundStyle(.yellow)
                     }
                     
                     
                     Image("logo")
                         .resizable()
                         .frame(
-                            width: outerGeo.width * 0.5,
-                            height: outerGeo.width * 0.55
+                            width: outerGeo.width * 0.3,
+                            height: outerGeo.width * 0.28
                         )
-                        .offset(y: -outerGeo.width * 0.06)
+                        .offset(y: outerGeo.width * 0.04)
                 }
             }
         }.navigationBarHidden(true)
@@ -55,6 +62,7 @@ struct PriceListView: View {
 }
 
 #Preview {
-    PriceListView(currentQuestion: 7)
+    PriceListView(currentScreen: .constant(.priceList), currentQuestion: 7)
+        .environmentObject(QuizViewModel())
 }
 
