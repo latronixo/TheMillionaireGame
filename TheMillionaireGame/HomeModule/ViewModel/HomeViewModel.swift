@@ -1,3 +1,11 @@
+//
+//  HomeView.swift
+//  TheMillionaireGame
+//
+//  Created by Mika on 24.07.2025.
+//
+
+
 import Foundation
 import SwiftUI
 
@@ -8,24 +16,39 @@ final class HomeViewModel: ObservableObject {
     @Published var showGameView: Bool = false
     @Published var isGameOverView: Bool = false
     @Published var winAmount: Int?
+    @Published var savedGameViewModel: QuizViewModel?
+
     
     let level: Int?
     
+    
+    
+    
     // todo - надо передавать еще сумму выигрыша winAmount
+    
     init(level: Int? = nil) {
+        
         self.level = level
+        
         //mock
         if level != nil {
             winAmount = 1000
         }
         //
+        
         loadData()
     }
     
     func loadData() {
-        self.isGameOverView = (level == nil ? false : true)
+        self.isGameOverView = level != nil // todo
+        
         self.bestScore = HomeModel.loadBestScore()
-        self.hasUnfinishedGame = HomeModel.hasUnfinishedGame()
+        
+        //mock
+        continueGame()
+        //
+        
+        self.hasUnfinishedGame = savedGameViewModel != nil
     }
     
     func startNewGame() {
@@ -33,11 +56,6 @@ final class HomeViewModel: ObservableObject {
     }
     
     func continueGame() {
-       //
-    }
-    
-    //check it
-    func showRules() {
-        self.showRulesSheet.toggle()
+        self.savedGameViewModel = HomeModel.loadSavedGame()
     }
 }
