@@ -57,7 +57,7 @@ struct PriceListView: View {
                         .offset(y: outerGeo.width * 0.04)
                 }
             }
-        }.navigationBarHidden(true)
+        }
     }
 }
 

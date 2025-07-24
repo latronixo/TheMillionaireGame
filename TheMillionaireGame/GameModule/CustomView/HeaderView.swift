@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct HeaderView: View {
-
     @EnvironmentObject var viewModel: QuizViewModel
     @Binding var currentScreen: MainScreenDestination
     
