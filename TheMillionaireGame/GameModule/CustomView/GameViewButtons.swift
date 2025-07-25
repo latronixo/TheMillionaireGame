@@ -46,18 +46,18 @@ struct GameViewButtons: View {
     private func buttonColor(for index: Int) -> Color {
           if let selected = selectedIndex {
               if !showCorrectOrNot {
-                  return index == selected ? .gray : .blue
+                  return index == selected ? .gold : .navy
               } else {
                   if index == correctAnswerIndex {
-                      return .green
+                      return .grassGreen
                   } else if index == selected {
                       return .red
                   } else {
-                      return .blue
+                      return .navy
                   }
               }
           } else {
-              return .blue
+              return .navy
           }
       }
 }
