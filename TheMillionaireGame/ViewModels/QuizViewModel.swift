@@ -271,6 +271,16 @@ final class QuizViewModel: ObservableObject {
             )
         ]
     }
+    //MARK: - Mock Data for Audience Help Button
+    func generateAudienceHelpData(source: [String]) -> [AudienceOpinion] {
+        var audienceHelpData: [AudienceOpinion] = []
+        source.forEach { source in
+            let answer = AudienceOpinion(source: source, count: Int.random(in: 0...250))
+            audienceHelpData.append(answer)
+        }
+        return audienceHelpData
+    }
+    
     
     //MARK: - Change BackgroundColor in Timer
     

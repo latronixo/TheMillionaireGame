@@ -17,42 +17,65 @@ struct GameView: View {
             LinearGradient(colors: [Color(red: 55/255, green: 76/255, blue: 148/255), Color(red: 16/255, green: 14/255, blue: 22/255)], startPoint: .topLeading, endPoint: .bottomTrailing)
                 .edgesIgnoringSafeArea(.all)
             
-            VStack(alignment: .center, spacing: 40){
-                HeaderView(currentScreen: $currentScreen)
-                TimerView()
-                    .environmentObject(viewModel)
-                VStack(spacing: 60){
-                    if viewModel.isLoading {
-                        ProgressView("Loading questions...")
-                    } else if let error = viewModel.errorMessage {
-                        Text("Error: \(error)")
-                            .foregroundColor(.red)
-                            .multilineTextAlignment(.center)
-                            .padding()
-                    } else {
-                        Text(viewModel.currentTextQuestion)
-                            .foregroundStyle(.white)
-                            .font(.system(size: 24))
-                            .fontWeight(.bold)
-                            .lineLimit(4)
-                        
-                        VStack(alignment: .leading, spacing: 70) {
-                            ForEach(0...3, id: \.self) { index in
-                                Button {
-                                    viewModel.answerTapped(index)
-                                } label: {
-                                    Text("\(viewModel.ABCD[index]) \(viewModel.answers[index])")
-                                        .font(.system(size: 20))
-                                        .fontWeight(.bold)
-                                        .foregroundStyle(.white)
-                                        .multilineTextAlignment(.leading)
-                                }
-                            }
+            GeometryReader { geo in
+                VStack(alignment: .center, spacing: 40) {
+                    HeaderView(currentScreen: $currentScreen)
+                    TimerView()
+                        .environmentObject(viewModel)
+                    VStack(spacing: 60){
+                        if viewModel.isLoading {
+                            ProgressView("Loading questions...")
+                        } else if let error = viewModel.errorMessage {
+                            Text("Error: \(error)")
+                                .foregroundColor(.red)
+                                .multilineTextAlignment(.center)
+                                .padding()
+                        } else {
+                            Text(viewModel.currentTextQuestion)
+                                .foregroundStyle(.white)
+                                .font(.system(size: 24))
+                                .fontWeight(.bold)
+                                .lineLimit(4)
                             
+                            VStack(alignment: .leading, spacing: 70) {
+                                ForEach(0...3, id: \.self) { index in
+                                    Button {
+                                        viewModel.answerTapped(index)
+                                    } label: {
+                                        Text("\(viewModel.ABCD[index]) \(viewModel.answers[index])")
+                                            .font(.system(size: 20))
+                                            .fontWeight(.bold)
+                                            .foregroundStyle(.white)
+                                            .multilineTextAlignment(.leading)
+                                    }
+                                }
+                                
+                            }
+                        }
+                    }
+                    
+                    HStack (spacing: geo.width * 0.06) {
+                        Button {
+                            print("--> tapped 50:50")
+                        } label: {
+                            Image("fiftyRemove")
+                        }
+
+                        
+                        Button {
+                            currentScreen = .audienceHelp
+                        } label: {
+                            Image("audience")
+                        }
+                        
+                        
+                        Button {
+                            print("--> tapped call friend")
+                        } label: {
+                            Image("call")
                         }
                     }
                 }
-                Spacer()
             }
         }
         .task(id: viewModel.questions) {
