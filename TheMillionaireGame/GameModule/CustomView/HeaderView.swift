@@ -26,9 +26,9 @@ struct HeaderView: View {
             Spacer()
             
             VStack{
-                Text("Question #1")
-                
-                Text("Price: 500$")
+                Text("Question №\(viewModel.numberCurrentQuestion)")
+                let price = (viewModel.numberCurrentQuestion > 0 && viewModel.numberCurrentQuestion <= questionPrices.count) ? Int(questionPrices[viewModel.numberCurrentQuestion - 1].currency.amount) : 0
+                Text("Price: \(price)$")
             }
             .fontWeight(.medium)
             .font(.subheadline)
