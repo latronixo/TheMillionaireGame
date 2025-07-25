@@ -25,7 +25,7 @@ final class QuizViewModel: ObservableObject {
     @Published var isGameOver = false
     
     
-    let ABCD = ["A: ", "B: ", "C: ", "D: "]
+    //let ABCD = ["A: ", "B: ", "C: ", "D: "]   создал в дочерней GameViewButtons
     
     let timeKey = "timeKey"
 

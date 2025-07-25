@@ -36,20 +36,10 @@ struct GameView: View {
                             .fontWeight(.bold)
                             .lineLimit(4)
                         
-                        VStack(alignment: .leading, spacing: 70) {
-                            ForEach(0...3, id: \.self) { index in
-                                Button {
-                                    viewModel.answerTapped(index)
-                                } label: {
-                                    Text("\(viewModel.ABCD[index]) \(viewModel.answers[index])")
-                                        .font(.system(size: 20))
-                                        .fontWeight(.bold)
-                                        .foregroundStyle(.white)
-                                        .multilineTextAlignment(.leading)
-                                }
-                            }
-                            
+                        GameViewButtons(answers: viewModel.answers) { index in
+                            viewModel.answerTapped(index)
                         }
+
                     }
                 }
                 Spacer()
