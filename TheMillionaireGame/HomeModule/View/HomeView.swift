@@ -30,9 +30,7 @@ struct HomeView: View {
                 VStack {
                     logo
                     title
-                    if let bestScore = viewModel.bestScore {
-                        BestScoreView(score: bestScore)
-                    }
+                    BestScoreView()
                     Spacer()
                     GameButtonsView(
                         hasUnfinishedGame: viewModel.hasUnfinishedGame,

@@ -24,24 +24,13 @@ final class QuizViewModel: ObservableObject {
         questions[numberCurrentQuestion].difficulty
     }
     
-    var gameOverPrize: Int {    //несгораемая сумма
-        let q = numberCurrentQuestion
-        if q < 5 {
-            return 0
-        } else if q < 10 {
-            return Int(questionPrices[4].currency.amount)
-        } else {
-            return Int(questionPrices[9].currency.amount)
-        }
-    }
-    
     // Для случая, когда пользователь забрал деньги
     @Published var tookMoneyPrize: Int? = nil
     @Published var tookMoneyQuestionNumber: Int? = nil
 
     func setTookMoneyPrize() {
         // номер вопроса - 1
-        let questionIndex = numberCurrentQuestion - 1
+        let questionIndex = numberCurrentQuestion
         if questionIndex >= 0 && questionIndex < questionPrices.count {
             tookMoneyPrize = Int(questionPrices[questionIndex].currency.amount)
             tookMoneyQuestionNumber = numberCurrentQuestion
@@ -55,7 +44,18 @@ final class QuizViewModel: ObservableObject {
         tookMoneyQuestionNumber = nil
     }
     
-    var gameOverPrizeQuestionNumber: Int {  //номер вопроса, соответствующий несгораемой сумме (для отображения на экране GameOver
+    //для случая неверного ответа
+    var gameOverPrize: Int {    //несгораемая сумма
+        let q = numberCurrentQuestion
+        if q < 5 {
+            return 0
+        } else if q < 10 {
+            return Int(questionPrices[4].currency.amount)
+        } else {
+            return Int(questionPrices[9].currency.amount)
+        }
+    }
+    var gameOverPrizeQuestionNumber: Int {  //номер вопроса, соответствующий несгораемой сумме (для отображения на экране GameOver)
         let q = numberCurrentQuestion
         if q < 5 {
             return 0
@@ -320,5 +320,19 @@ final class QuizViewModel: ObservableObject {
                 // todo тут типа надо загрузить вопросы
             }
         }
+    }
+    
+    func updateBestScoreIfNeede() {
+        let currentResult: Int
+            if let tookPrize = tookMoneyPrize {
+                currentResult = tookPrize
+            } else {
+                currentResult = gameOverPrize
+            }
+            let bestScoreKey = "bestScore"
+            let previousBest = UserDefaults.standard.integer(forKey: bestScoreKey)
+            if currentResult > previousBest {
+                UserDefaults.standard.set(currentResult, forKey: bestScoreKey)
+            }
     }
 }

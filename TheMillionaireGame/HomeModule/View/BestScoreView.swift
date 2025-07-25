@@ -9,7 +9,8 @@ import SwiftUI
 
 
 struct BestScoreView: View {
-    let score: Int
+    @State private var bestScore: Int = UserDefaults.standard.integer(forKey: "bestScore")
+    
     var body: some View {
         VStack(spacing: 0) {
             Text(UI.BestScore.text)
@@ -28,12 +29,15 @@ struct BestScoreView: View {
                     .resizable()
                     .scaledToFit()
                     .frame(width: UI.Coin.width, height: UI.Coin.height)
-                Text("\(score)")
+                Text("$\(bestScore)")
                     .font(.system(
                         size: UI.Score.fontSize,
                         weight: UI.Score.fontWeight,
                         design: UI.Score.fontDesign))
                     .foregroundColor(.white)
+                    .onAppear {
+                        bestScore = UserDefaults.standard.integer(forKey: "bestScore")
+                    }
                 Spacer()
             }
         }
