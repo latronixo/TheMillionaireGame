@@ -37,54 +37,49 @@ struct GameView: View {
                                 .fontWeight(.bold)
                                 .lineLimit(4)
                             
-                            GameViewButtons(answers: viewModel.answers, correctAnswerIndex: viewModel.correctAnswerIndex ?? -1) { index in
+                            GameViewButtons(answers: viewModel.answers, correctAnswerIndex: viewModel.answers.firstIndex(of: viewModel.correctAnswer) ?? -1) { index in
                                 viewModel.answerTapped(index)
                                 
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 8) {
-                                    if index == viewModel.correctAnswerIndex {
-                                        currentScreen = .priceList
-                                    } else {
-                                        currentScreen = .gameOver
-                                    }
+                                    currentScreen = .priceList
                                 }
-                            }
-                            .task(id: viewModel.questions) {
-                                if viewModel.questions.isEmpty {
-                                    await viewModel.loadQuestions()
-                                }
+                                
                             }
                         }
+                    }
+                    .task(id: viewModel.questions) {
+                        if viewModel.questions.isEmpty {
+                            await viewModel.loadQuestions()
+                        }
+                    }
+                    HStack (spacing: geo.width * 0.08) {
+                        Button {
+                            print("--> tapped 50:50")
+                        } label: {
+                            Image("fiftyRemove")
+                        }
                         
-                        HStack (spacing: geo.width * 0.08) {
-                            Button {
-                                print("--> tapped 50:50")
-                            } label: {
-                                Image("fiftyRemove")
-                            }
-                            
-                            
-                            Button {
-                                currentScreen = .audienceHelp
-                            } label: {
-                                Image("audience")
-                            }
-                            
-                            
-                            Button {
-                                print("--> tapped call friend")
-                            } label: {
-                                Image("call")
-                            }
-                            
+                        
+                        Button {
+                            currentScreen = .audienceHelp
+                        } label: {
+                            Image("audience")
+                        }
+                        
+                        
+                        Button {
+                            print("--> tapped call friend")
+                        } label: {
+                            Image("call")
                         }
                         
                     }
+                    
                 }
             }
         }
     }
 }
-
 
 
 #Preview{

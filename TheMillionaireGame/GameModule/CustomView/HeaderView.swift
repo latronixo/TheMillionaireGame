@@ -14,21 +14,22 @@ struct HeaderView: View {
     var body: some View {
         HStack(alignment: .center){
             Button {
-                currentScreen = .home
+                viewModel.setTookMoneyPrize()
+                currentScreen = .gameOver
             } label: {
-                Image(systemName: "arrow.left")
+                Image("getMoney")
                     .resizable()
                     .fontWeight(.bold)
                     .foregroundStyle(.white)
-                    .frame(width: 20, height: 20)
+                    .frame(width: 30, height: 30)
             }
             
             Spacer()
             
             VStack{
-                Text("Question #1")
-                
-                Text("Price: 500$")
+                Text("Question №\(viewModel.numberCurrentQuestion)")
+                let price = (viewModel.numberCurrentQuestion > 0 && viewModel.numberCurrentQuestion <= questionPrices.count) ? Int(questionPrices[viewModel.numberCurrentQuestion - 1].currency.amount) : 0
+                Text("Price: \(price)$")
             }
             .fontWeight(.medium)
             .font(.subheadline)

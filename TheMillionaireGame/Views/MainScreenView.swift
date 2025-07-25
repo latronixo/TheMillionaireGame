@@ -40,7 +40,7 @@ struct MainScreenView: View {
                             .transition(.opacity)
                             .environmentObject(viewModel)
                     case .gameOver:
-                        HomeView(currentScreen: $currentScreen)
+                        GameOver(currentScreen: $currentScreen)
                             .transition(.opacity)
                             .environmentObject(viewModel)
                     case .rules:

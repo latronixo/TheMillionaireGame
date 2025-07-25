@@ -57,5 +57,6 @@ final class HomeViewModel: ObservableObject {
     
     func continueGame() {
         self.savedGameViewModel = HomeModel.loadSavedGame()
+        self.hasUnfinishedGame = savedGameViewModel != nil
     }
 }

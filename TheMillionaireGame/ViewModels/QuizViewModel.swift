@@ -23,7 +23,49 @@ final class QuizViewModel: ObservableObject {
     var difficultQuestion: String {                 //для подсказки другу
         questions[numberCurrentQuestion].difficulty
     }
+    
+    var gameOverPrize: Int {    //несгораемая сумма
+        let q = numberCurrentQuestion
+        if q < 5 {
+            return 0
+        } else if q < 10 {
+            return Int(questionPrices[4].currency.amount)
+        } else {
+            return Int(questionPrices[9].currency.amount)
+        }
+    }
+    
+    // Для случая, когда пользователь забрал деньги
+    @Published var tookMoneyPrize: Int? = nil
+    @Published var tookMoneyQuestionNumber: Int? = nil
 
+    func setTookMoneyPrize() {
+        // номер вопроса - 1
+        let questionIndex = numberCurrentQuestion - 1
+        if questionIndex >= 0 && questionIndex < questionPrices.count {
+            tookMoneyPrize = Int(questionPrices[questionIndex].currency.amount)
+            tookMoneyQuestionNumber = numberCurrentQuestion
+        } else {
+            tookMoneyPrize = 0
+            tookMoneyQuestionNumber = nil
+        }
+    }
+    func resetTookMoneyPrize() {
+        tookMoneyPrize = nil
+        tookMoneyQuestionNumber = nil
+    }
+    
+    var gameOverPrizeQuestionNumber: Int {  //номер вопроса, соответствующий несгораемой сумме (для отображения на экране GameOver
+        let q = numberCurrentQuestion
+        if q < 5 {
+            return 0
+        } else if q < 10 {
+            return 5
+        } else {
+            return 10
+        }
+    }
+    
     let timeKey = "timeKey"
 
     func loadQuestions() async {
@@ -100,10 +142,10 @@ final class QuizViewModel: ObservableObject {
             //let isAnswerRight = userAnswer == self.correctAnswer
             if userAnswer == self.correctAnswer {
                 self.nextQuestion()
-                self.saveGameState()
+                self.saveGameState(numberQuestion: self.numberCurrentQuestion)
                 print("Правильный ответ")
             } else {
-                self.saveGameState()
+                self.saveGameState(numberQuestion: nil)
                 print("Неправильный ответ")
             }
         }
@@ -270,8 +312,12 @@ final class QuizViewModel: ObservableObject {
         UserDefaults.standard.set(timeRemaining, forKey: timeKey)
     }
     
-    func saveGameState() {
-        UserDefaults.standard.set(numberCurrentQuestion, forKey: "savedCurrentQuestion")
+    func saveGameState(numberQuestion: Int?) {
+        if let number = numberQuestion {
+            UserDefaults.standard.set(number, forKey: "savedCurrentQuestion")
+        } else {
+            UserDefaults.standard.removeObject(forKey: "savedCurrentQuestion")
+        }
     }
 
     func loadGameState() {
