@@ -10,7 +10,7 @@ import SwiftUI
 struct GameView: View {
     @EnvironmentObject var viewModel: QuizViewModel
     @Binding var currentScreen: MainScreenDestination
-
+    
     
     var body: some View {
         ZStack{
@@ -18,11 +18,11 @@ struct GameView: View {
                 .edgesIgnoringSafeArea(.all)
             
             GeometryReader { geo in
-                VStack(alignment: .center, spacing: 40) {
+                VStack(alignment: .center, spacing: 40){
                     HeaderView(currentScreen: $currentScreen)
                     TimerView()
                         .environmentObject(viewModel)
-                    VStack(spacing: 60){
+                    VStack(spacing: 60) {
                         if viewModel.isLoading {
                             ProgressView("Loading questions...")
                         } else if let error = viewModel.errorMessage {
@@ -37,54 +37,55 @@ struct GameView: View {
                                 .fontWeight(.bold)
                                 .lineLimit(4)
                             
-                            VStack(alignment: .leading, spacing: 70) {
-                                ForEach(0...3, id: \.self) { index in
-                                    Button {
-                                        viewModel.answerTapped(index)
-                                    } label: {
-                                        Text("\(viewModel.ABCD[index]) \(viewModel.answers[index])")
-                                            .font(.system(size: 20))
-                                            .fontWeight(.bold)
-                                            .foregroundStyle(.white)
-                                            .multilineTextAlignment(.leading)
+                            GameViewButtons(answers: viewModel.answers, correctAnswerIndex: viewModel.correctAnswerIndex ?? -1) { index in
+                                viewModel.answerTapped(index)
+                                
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 8) {
+                                    if index == viewModel.correctAnswerIndex {
+                                        currentScreen = .priceList
+                                    } else {
+                                        currentScreen = .gameOver
                                     }
                                 }
-                                
+                            }
+                            .task(id: viewModel.questions) {
+                                if viewModel.questions.isEmpty {
+                                    await viewModel.loadQuestions()
+                                }
                             }
                         }
-                    }
-                    
-                    HStack (spacing: geo.width * 0.06) {
-                        Button {
-                            print("--> tapped 50:50")
-                        } label: {
-                            Image("fiftyRemove")
-                        }
-
                         
-                        Button {
-                            currentScreen = .audienceHelp
-                        } label: {
-                            Image("audience")
+                        HStack (spacing: geo.width * 0.08) {
+                            Button {
+                                print("--> tapped 50:50")
+                            } label: {
+                                Image("fiftyRemove")
+                            }
+                            
+                            
+                            Button {
+                                currentScreen = .audienceHelp
+                            } label: {
+                                Image("audience")
+                            }
+                            
+                            
+                            Button {
+                                print("--> tapped call friend")
+                            } label: {
+                                Image("call")
+                            }
+                            
                         }
                         
-                        
-                        Button {
-                            print("--> tapped call friend")
-                        } label: {
-                            Image("call")
-                        }
                     }
                 }
             }
         }
-        .task(id: viewModel.questions) {
-            if viewModel.questions.isEmpty {
-                await viewModel.loadQuestions()
-            }
-        }
     }
 }
+
+
 
 #Preview{
     GameView(currentScreen: .constant(.game))

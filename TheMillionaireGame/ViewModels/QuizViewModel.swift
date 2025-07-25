@@ -13,20 +13,17 @@ final class QuizViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var errorMessage: String? = nil
     
-    
-    @Published var currentTextQuestion = ""
-    var numberCurrentQuestion = 1
-    @Published var answers = ["", "", "", ""]
-    @Published var correctAnswer = ""
+    var currentTextQuestion = ""
+    var numberCurrentQuestion = 0
+    var answers = ["", "", "", ""]
+    var correctAnswer = ""
+    var correctAnswerIndex: Int? {
+        answers.firstIndex(of: correctAnswer)
+    }
     var difficultQuestion: String {                 //для подсказки другу
         questions[numberCurrentQuestion].difficulty
     }
-    @Published var showPriceList = false
-    @Published var isGameOver = false
-    
-    
-    let ABCD = ["A: ", "B: ", "C: ", "D: "]
-    
+
     let timeKey = "timeKey"
 
     func loadQuestions() async {
@@ -101,40 +98,13 @@ final class QuizViewModel: ObservableObject {
         DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
             
             //let isAnswerRight = userAnswer == self.correctAnswer
-            
             if userAnswer == self.correctAnswer {
-                ///надо чтобы выбранный ответ мигал зеленым в течение 3 секунд
-                
-                //DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                ///надо чтобы кнопка мигала зеленым в течение 3 секунд
-                //}
-                
-                //показываем PriceListView через 3 секунды
-                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                    self.showPriceList = true
-                    
-                    //через 3 секунды закрываем PriceListView
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                        self.showPriceList = false
-                        self.nextQuestion()
-                    }
-                }
-                
+                self.nextQuestion()
+                self.saveGameState()
                 print("Правильный ответ")
             } else {
-                ///надо чтобы выбранный ответ мигал красным в течение 3 секунд
-                
-                //DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                ///надо чтобы кнопка мигала красным в течение 3 секунд
-                //}
-                
-                //показываем isGameOver через 3 секунды
-                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                    self.isGameOver = true
-                }
-                
+                self.saveGameState()
                 print("Неправильный ответ")
-                
             }
         }
     }
@@ -298,5 +268,21 @@ final class QuizViewModel: ObservableObject {
     
     func saveTimeRemaining(timeRemaining: Double) {
         UserDefaults.standard.set(timeRemaining, forKey: timeKey)
+    }
+    
+    func saveGameState() {
+        UserDefaults.standard.set(numberCurrentQuestion, forKey: "savedCurrentQuestion")
+    }
+
+    func loadGameState() {
+        if let savedIndex = UserDefaults.standard.value(forKey: "savedCurrentQuestion") as? Int {
+            self.numberCurrentQuestion = savedIndex
+            if !questions.isEmpty && numberCurrentQuestion < questions.count {
+                self.currentTextQuestion = questions[numberCurrentQuestion].question
+                self.answers = ([questions[numberCurrentQuestion].correctAnswer] + questions[numberCurrentQuestion].incorrectAnswers).shuffled()
+            } else {
+                // todo тут типа надо загрузить вопросы
+            }
+        }
     }
 }

@@ -17,65 +17,75 @@ struct AudienceHelp: View {
     @Binding var currentScreen: MainScreenDestination
     
     var body: some View {
-        GeometryReader { geo in
-            VStack {
-                Spacer()
-                    .frame(height: geo.height * 0.25)
+        ZStack {
+            GeometryReader { geo in
+                BackgroundView()
                 
-                
-                Chart {
-                    ForEach(audienceRespond) { respond in
-                        BarMark(
-                            x: .value("Source", respond.source),
-                            y: .value("Amount", isAnimated ? respond.count : 0),
-                            width: .automatic
-                        )
-                        .foregroundStyle(Color.skyBlue.gradient)
-                        .cornerRadius(5)
-                        .annotation(
-                            position: .top,
-                            alignment: .center,
-                            spacing: 10) {
-                                Text("\(respond.source)")
-                                    .font(.title)
-                                    .bold()
+                VStack {
+                    Spacer()
+                        .frame(height: geo.height * 0.2)
+                    
+                    Chart {
+                        ForEach(audienceRespond) { respond in
+                            BarMark(
+                                x: .value("Source", respond.source),
+                                y: .value("Amount", isAnimated ? respond.count : 0),
+                                width: .automatic
+                            )
+                            .foregroundStyle(Color.skyBlue.gradient)
+                            .cornerRadius(5)
+                            .annotation(
+                                position: .top,
+                                alignment: .center,
+                                spacing: 10) {
+                                    Text("\(respond.source)")
+                                        .font(.title)
+                                        .bold()
                             }
+                        }
                     }
-                }
-                .padding()
-                .frame(height: geo.height * 0.4)
-                .chartYScale(domain: 0...300)
-                .chartXAxis {
+                    .padding()
+                    .frame(height: geo.height * 0.4)
+                    .chartYScale(domain: 0...300)
+                    .chartXAxis {
 //                    AxisMarks(values: .automatic) {
 //                        AxisValueLabel()
 //                            .font(.largeTitle)
 //                    }
-                }
-                .chartYAxis {
-//                    AxisMarks {
+                    }
+                    .chartYAxis {
+//                        AxisMarks {
 //                            AxisGridLine()
 //                        }
-                }
-                
-                Spacer()
-                
-                Button("К игре") {
-                    currentScreen = .game
+                    }
+                    
+                    Spacer()
+                    
+                    Button {
+                        currentScreen = .game
+                    } label: {
+                        Text("Back to game")
+                            .font(.headline)
+                            .foregroundStyle(.yellow)
+                    }
                 }
             }
-        }
-        .onAppear {
-            print("onAppear AudienceHelp")
-            audienceRespond = viewModel.generateAudienceHelpData(source: viewModel.ABCD)
-            withAnimation(.easeInOut(duration: 3)) {
-                isAnimated = true
+            .onAppear {
+                print("onAppear AudienceHelp")
+                audienceRespond = viewModel.generateAudienceHelpData(source: ["A", "B", "C", "D"])
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    withAnimation(.easeInOut(duration: 2)) {
+                           isAnimated = true
+                       }
+                   }
             }
-        }
-        .onDisappear() {
-            print("onDisappear AudienceHelp")
+            .onDisappear() {
+                print("onDisappear AudienceHelp")
+            }
         }
     }
 }
+
 
 #Preview {
     AudienceHelp(currentScreen: .constant(.audienceHelp))
