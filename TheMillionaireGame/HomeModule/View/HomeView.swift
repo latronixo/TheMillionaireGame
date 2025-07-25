@@ -77,7 +77,9 @@ struct HomeView: View {
 
     private var helpToolbar: some ToolbarContent {
         ToolbarItem(placement: .navigationBarTrailing) {
-            Button(action: { viewModel.showRulesSheet = true }) {
+            Button(action: {
+                currentScreen = .rules
+            }) {
                 Image(UI.HelpIcon.name)
                     .renderingMode(.original)
             }
