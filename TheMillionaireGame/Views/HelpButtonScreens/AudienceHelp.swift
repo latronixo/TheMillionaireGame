@@ -71,7 +71,6 @@ struct AudienceHelp: View {
                 }
             }
             .onAppear {
-                print("onAppear AudienceHelp")
                 audienceRespond = viewModel.generateAudienceHelpData(source: ["A", "B", "C", "D"])
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                     withAnimation(.easeInOut(duration: 2)) {
@@ -80,7 +79,7 @@ struct AudienceHelp: View {
                    }
             }
             .onDisappear() {
-                print("onDisappear AudienceHelp")
+                
             }
         }
     }

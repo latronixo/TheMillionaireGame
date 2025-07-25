@@ -49,7 +49,7 @@ struct MainScreenView: View {
                             .environmentObject(viewModel)
                     case .audienceHelp:
                         AudienceHelp(currentScreen: $currentScreen)
-                            .transition(.opacity)
+                            .transition(.move(edge: .bottom))
                             .environmentObject(viewModel)
                     }
                 }
