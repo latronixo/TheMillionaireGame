@@ -26,7 +26,7 @@ struct GameViewButtons: View {
                     height: CGFloat(62),
                     action: {
                         guard selectedIndex == nil else { return }
-                        withAnimation{
+                        withAnimation {
                             selectedIndex = index
                         }
                         answerTapped(index)

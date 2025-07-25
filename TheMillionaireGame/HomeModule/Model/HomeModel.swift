@@ -30,7 +30,14 @@ struct HomeModel {
         // тут восстанавливать вью модель или как-то иначе восстанавливать стейт игры
         
         //mock
-        return QuizViewModel()
+        
+        
+        if let savedIndexQuestion = UserDefaults.standard.value(forKey: "savedCurrentQuestion") as? Int {
+            let vm = QuizViewModel()
+            vm.numberCurrentQuestion = savedIndexQuestion
+            return vm
+        }
+        return nil
     }
     
 }

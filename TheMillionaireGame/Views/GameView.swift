@@ -39,10 +39,14 @@ struct GameView: View {
                         GameViewButtons(answers: viewModel.answers, correctAnswerIndex: viewModel.correctAnswerIndex ?? -1) { index in
                             viewModel.answerTapped(index)
                             
+                            let isCorrect = index == viewModel.correctAnswerIndex
+                            
                             DispatchQueue.main.asyncAfter(deadline: .now() + 8) {
-                                if index == viewModel.correctAnswerIndex {
+                                if isCorrect {
                                     currentScreen = .priceList
                                 } else {
+                                    
+                                    
                                     currentScreen = .gameOver
                                 }
                             }
