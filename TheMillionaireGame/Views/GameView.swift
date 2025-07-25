@@ -38,6 +38,11 @@ struct GameView: View {
                         
                         GameViewButtons(answers: viewModel.answers, correctAnswerIndex: viewModel.answers.firstIndex(of: viewModel.correctAnswer) ?? -1) { index in
                             viewModel.answerTapped(index)
+                            
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 8) {
+                                currentScreen = .priceList
+                            }
+                            
                         }
 
                     }
