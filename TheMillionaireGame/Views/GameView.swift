@@ -36,7 +36,7 @@ struct GameView: View {
                             .fontWeight(.bold)
                             .lineLimit(4)
                         
-                        GameViewButtons(answers: viewModel.answers) { index in
+                        GameViewButtons(answers: viewModel.answers, correctAnswerIndex: viewModel.answers.firstIndex(of: viewModel.correctAnswer) ?? -1) { index in
                             viewModel.answerTapped(index)
                         }
 

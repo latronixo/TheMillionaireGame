@@ -13,11 +13,10 @@ final class QuizViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var errorMessage: String? = nil
     
-    
-    @Published var currentTextQuestion = ""
-    var numberCurrentQuestion = 1
-    @Published var answers = ["", "", "", ""]
-    @Published var correctAnswer = ""
+    var currentTextQuestion = ""
+    var numberCurrentQuestion = 0
+    var answers = ["", "", "", ""]
+    var correctAnswer = ""
     var difficultQuestion: String {                 //для подсказки другу
         questions[numberCurrentQuestion].difficulty
     }
@@ -103,14 +102,9 @@ final class QuizViewModel: ObservableObject {
             //let isAnswerRight = userAnswer == self.correctAnswer
             
             if userAnswer == self.correctAnswer {
-                ///надо чтобы выбранный ответ мигал зеленым в течение 3 секунд
-                
-                //DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                ///надо чтобы кнопка мигала зеленым в течение 3 секунд
-                //}
-                
                 //показываем PriceListView через 3 секунды
                 DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+//                    currentScreen: .PriceList
                     self.showPriceList = true
                     
                     //через 3 секунды закрываем PriceListView
