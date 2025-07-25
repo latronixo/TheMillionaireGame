@@ -17,7 +17,7 @@ struct GameViewButtons: View {
     @State var showCorrectOrNot = false
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 70) {
+        VStack(alignment: .leading, spacing: 20) {
             ForEach(0..<answers.count, id: \.self) { index in
                 HexagonalButton(
                     text: "\(ABCD[index]) \(answers[index])",

@@ -13,12 +13,14 @@ enum MainScreenDestination {
     case rules
     case priceList
     case gameOver
+    case audienceHelp
 }
 
 struct MainScreenView: View {
     @StateObject private var viewModel = QuizViewModel()
     @State private var showGameView = false
     @State private var currentScreen: MainScreenDestination = .home
+    
     
     var body: some View {
         NavigationView {
@@ -44,6 +46,10 @@ struct MainScreenView: View {
                     case .rules:
                         RulesView(currentScreen: $currentScreen)
                             .transition(.opacity)
+                            .environmentObject(viewModel)
+                    case .audienceHelp:
+                        AudienceHelp(currentScreen: $currentScreen)
+                            .transition(.move(edge: .bottom))
                             .environmentObject(viewModel)
                     }
                 }

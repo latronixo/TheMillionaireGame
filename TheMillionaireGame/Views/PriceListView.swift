@@ -41,10 +41,13 @@ struct PriceListView: View {
                             }
                         }
                         
-                        Button("Продолжить") {
+                        Button {
                             currentScreen = .game
+                        } label: {
+                            Text("Back to game")
+                                .font(.system(size: 18, weight: .bold))
+                                .foregroundStyle(.yellow)
                         }
-                        .foregroundStyle(.yellow)
                     }
                     
                     
