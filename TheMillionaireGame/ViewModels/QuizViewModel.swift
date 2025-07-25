@@ -17,15 +17,13 @@ final class QuizViewModel: ObservableObject {
     var numberCurrentQuestion = 0
     var answers = ["", "", "", ""]
     var correctAnswer = ""
+    var correctAnswerIndex: Int? {
+        answers.firstIndex(of: correctAnswer)
+    }
     var difficultQuestion: String {                 //для подсказки другу
         questions[numberCurrentQuestion].difficulty
     }
-    @Published var showPriceList = false
-    @Published var isGameOver = false
-    
-    
-    //let ABCD = ["A: ", "B: ", "C: ", "D: "]   создал в дочерней GameViewButtons
-    
+
     let timeKey = "timeKey"
 
     func loadQuestions() async {
@@ -100,35 +98,13 @@ final class QuizViewModel: ObservableObject {
         DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
             
             //let isAnswerRight = userAnswer == self.correctAnswer
-            
             if userAnswer == self.correctAnswer {
-                //показываем PriceListView через 3 секунды
-                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-//                    currentScreen: .PriceList
-                    self.showPriceList = true
-                    
-                    //через 3 секунды закрываем PriceListView
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                        self.showPriceList = false
-                        self.nextQuestion()
-                    }
-                }
-                
+                self.nextQuestion()
+                self.saveGameState()
                 print("Правильный ответ")
             } else {
-                ///надо чтобы выбранный ответ мигал красным в течение 3 секунд
-                
-                //DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                ///надо чтобы кнопка мигала красным в течение 3 секунд
-                //}
-                
-                //показываем isGameOver через 3 секунды
-                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                    self.isGameOver = true
-                }
-                
+                self.saveGameState()
                 print("Неправильный ответ")
-                
             }
         }
     }
