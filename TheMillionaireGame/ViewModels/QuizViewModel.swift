@@ -289,4 +289,20 @@ final class QuizViewModel: ObservableObject {
     func saveTimeRemaining(timeRemaining: Double) {
         UserDefaults.standard.set(timeRemaining, forKey: timeKey)
     }
+    
+    func saveGameState() {
+        UserDefaults.standard.set(numberCurrentQuestion, forKey: "savedCurrentQuestion")
+    }
+
+    func loadGameState() {
+        if let savedIndex = UserDefaults.standard.value(forKey: "savedCurrentQuestion") as? Int {
+            self.numberCurrentQuestion = savedIndex
+            if !questions.isEmpty && numberCurrentQuestion < questions.count {
+                self.currentTextQuestion = questions[numberCurrentQuestion].question
+                self.answers = ([questions[numberCurrentQuestion].correctAnswer] + questions[numberCurrentQuestion].incorrectAnswers).shuffled()
+            } else {
+                // todo тут типа надо загрузить вопросы
+            }
+        }
+    }
 }
