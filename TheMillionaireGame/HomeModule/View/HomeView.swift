@@ -32,7 +32,7 @@ struct HomeView: View {
                     title
                     BestScoreView()
                     Spacer()
-                    GameButtonsView(
+                    ButtonsView(
                         hasUnfinishedGame: viewModel.hasUnfinishedGame,
                         onNewGame: {
                         //    currentScreen = .priceList
@@ -108,8 +108,6 @@ struct HomeView: View {
 }
 
 
-
-// MARK: - GameButtonsView
 
 
 struct HomeView_Previews: PreviewProvider {

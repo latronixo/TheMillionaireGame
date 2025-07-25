@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct GameButtonsView: View {
+struct ButtonsView: View {
     let hasUnfinishedGame: Bool
     let onNewGame: () -> Void
     let onContinueGame: () -> Void
