@@ -69,6 +69,9 @@ struct GameOverView: View {
                 }
                 .padding()
             }
+            .onAppear() {
+                viewModel.updateBestScoreIfNeeded()
+            }
         }
     }
     
