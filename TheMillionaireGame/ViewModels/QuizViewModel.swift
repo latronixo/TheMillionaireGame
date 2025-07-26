@@ -401,4 +401,29 @@ final class QuizViewModel: ObservableObject {
         timer?.invalidate()
         timer = nil
     }
+    
+    
+    // MARK: Hints
+    func fiftyFifty() {
+        removeTwoRandomElements(from: &answers, excluding: correctAnswer)
+    }
+    
+    
+    // MARK: Helper
+    func removeTwoRandomElements<T: Equatable>(from array: inout [T], excluding protectedElement: T) {
+        // Получаем индексы всех элементов, кроме защищённого
+        var removableIndices = array.indices.filter { array[$0] != protectedElement }
+
+        // Если меньше 2 — не удаляем
+        guard removableIndices.count >= 2 else { return }
+
+        // Перемешиваем и берём первые два
+        removableIndices.shuffle()
+        let indicesToRemove = removableIndices.prefix(2).sorted(by: >) // сортировка для безопасного удаления
+
+        // Удаляем элементы, начиная с большего индекса
+        for index in indicesToRemove {
+            array.remove(at: index)
+        }
+    }
 }
