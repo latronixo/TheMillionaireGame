@@ -7,8 +7,9 @@
 
 import SwiftUI
 
-struct GameOver: View {
+struct GameOverView: View {
     @EnvironmentObject var viewModel: QuizViewModel
+    @EnvironmentObject var homeViewModel: HomeViewModel
     @Binding var currentScreen: MainScreenDestination
     
     var body: some View {
@@ -58,6 +59,7 @@ struct GameOver: View {
                     Spacer()
                     GameOverButtonsView(
                         onNewGame: {
+                            homeViewModel.startNewGame()
                             currentScreen = .game
                         }, onMainScreen: {
                             currentScreen = .home
@@ -190,6 +192,6 @@ struct GameOverButtonsView: View {
 
 
 #Preview {
-    GameOver(currentScreen: .constant(.gameOver))
+    GameOverView(currentScreen: .constant(.gameOver))
         .environmentObject(QuizViewModel())
 }

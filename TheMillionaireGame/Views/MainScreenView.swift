@@ -55,26 +55,40 @@ struct MainScreenView: View {
                             }
                     case .gameOver:
                         if let quizVM = homeViewModel.savedGameViewModel {
-                            GameOver(currentScreen: $currentScreen)
+                            GameOverView(currentScreen: $currentScreen)
                                 .transition(.opacity)
                                 .environmentObject(quizVM)
+                                .environmentObject(homeViewModel)
                         } else {
-                            GameOver(currentScreen: $currentScreen)
+                            GameOverView(currentScreen: $currentScreen)
                                 .transition(.opacity)
                                 .environmentObject(QuizViewModel())
+                                .environmentObject(homeViewModel)
                         }
                     case .rules:
                         RulesView(currentScreen: $currentScreen)
                             .transition(.opacity)
-                            .environmentObject(viewModel)
+                            .environmentObject(homeViewModel)
                     case .audienceHelp:
-                        AudienceHelp(currentScreen: $currentScreen)
-                            .transition(.move(edge: .bottom))
-                            .environmentObject(viewModel)
+                        if let quizVM = homeViewModel.savedGameViewModel {
+                             AudienceHelp(currentScreen: $currentScreen)
+                                 .transition(.move(edge: .bottom))
+                                 .environmentObject(quizVM)
+                         } else {
+                             AudienceHelp(currentScreen: $currentScreen)
+                                 .transition(.move(edge: .bottom))
+                                 .environmentObject(QuizViewModel())
+                         }
                     case .call:
-                        CallView(currentScreen: $currentScreen)
-                            .transition(.move(edge: .bottom))
-                            .environmentObject(viewModel)
+                        if let quizVM = homeViewModel.savedGameViewModel {
+                                CallView(currentScreen: $currentScreen)
+                                    .transition(.move(edge: .bottom))
+                                    .environmentObject(quizVM)
+                            } else {
+                                CallView(currentScreen: $currentScreen)
+                                    .transition(.move(edge: .bottom))
+                                    .environmentObject(QuizViewModel())
+                            }
                     }
                 }
 
