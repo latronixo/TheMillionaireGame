@@ -10,7 +10,8 @@ import SwiftUI
 struct GameView: View {
     @EnvironmentObject var viewModel: QuizViewModel
     @Binding var currentScreen: MainScreenDestination
-    
+    @State private var showAnswerResult = false
+    @State private var isAnswerCorrect = false
     
     var body: some View {
         ZStack{
@@ -40,11 +41,17 @@ struct GameView: View {
                             GameViewButtons(answers: viewModel.answers, correctAnswerIndex: viewModel.answers.firstIndex(of: viewModel.correctAnswer) ?? 0) { index in
                                 viewModel.answerTapped(index)
                                 
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 8) {
-                                    currentScreen = .priceList
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                                    showAnswerResult = false
+                                    if isCorrect {
+                                        currentScreen = .priceList
+                                    } else {
+                                        currentScreen = .gameOver
+                                    }
                                 }
                                 
                             }
+                            .environmentObject(viewModel)
                         }
                     }
                     HStack (spacing: geo.width * 0.08) {

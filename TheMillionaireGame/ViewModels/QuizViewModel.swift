@@ -12,6 +12,8 @@ final class QuizViewModel: ObservableObject {
     @Published var questions: [Question] = []
     @Published var isLoading: Bool = false
     @Published var errorMessage: String? = nil
+    @Published var shouldResetTimer: Bool = false
+    @Published var shouldStopTimer = false
     
     @Published var currentTextQuestion = ""
     var numberCurrentQuestion = 0
@@ -137,6 +139,9 @@ final class QuizViewModel: ObservableObject {
     }
     
     func answerTapped(_ index: Int) {
+        
+        shouldStopTimer = true
+        
         let userAnswer = answers[index]
         
         ///надо проиграть в течение 5 секунд интригующая музыка "otvet-prinyat.mp3"
@@ -152,7 +157,11 @@ final class QuizViewModel: ObservableObject {
             } else {
                 self.saveGameState(numberQuestion: nil)
             }
+            
+            self.shouldStopTimer = true
         }
+        
+        
     }
     
     func getQuestionsDefault() -> [Question] {
@@ -348,5 +357,11 @@ final class QuizViewModel: ObservableObject {
             if currentResult > previousBest {
                 UserDefaults.standard.set(currentResult, forKey: bestScoreKey)
             }
+    }
+    
+    //MARK: - Work with Timer
+    
+    func timeExpired() {
+        saveGameState(numberQuestion: nil)
     }
 }

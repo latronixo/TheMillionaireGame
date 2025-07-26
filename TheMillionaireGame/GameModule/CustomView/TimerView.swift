@@ -13,8 +13,8 @@ struct TimerView: View {
     
     let totalTime: Double = 30
     @State private var timeRemaining: Double = 30
-    @State private var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
-    @State private var isActive: Bool = true
+    @State private var timer: Timer? = nil
+    @State private var isActive: Bool = false
     
     var body: some View {
         HStack(spacing: 5){
@@ -38,52 +38,62 @@ struct TimerView: View {
                 .frame(width: 80, height: 45)
         }
         
-        .onReceive(timer){_ in
-            guard isActive else {return}
-            
-            if timeRemaining > 0 {
-                timeRemaining -= 1
-                
-                if timeRemaining <= 5 {
-                    
-                }
-            } else {
+        .onReceive(vm.$shouldResetTimer, perform: { shouldReset in
+            if shouldReset {
                 stopTimer()
+                vm.shouldResetTimer = false
             }
-        }
+        })
+        
+        .onReceive(vm.$shouldStopTimer, perform: { shouldStop in
+            if shouldStop {
+                stopTimer()
+                vm.shouldStopTimer = false
+            }
+        })
         
         .onAppear {
-            loadTimeRemaining()
+            startTimer()
+            
         }
         
         .onDisappear {
-            vm.saveTimeRemaining(timeRemaining: timeRemaining)
-        }
-        
-        .onReceive(NotificationCenter.default.publisher(for: UIApplication.willResignActiveNotification)) { _ in
-            vm.saveTimeRemaining(timeRemaining: timeRemaining)
-        }
-        
-        .onReceive(NotificationCenter.default.publisher(for: UIApplication.willResignActiveNotification)) { _ in
-            loadTimeRemaining()
+            stopTimer()
         }
         
     }
     
     //MARK: - Methods
     
-    private func loadTimeRemaining() {
-        let savedTime = UserDefaults.standard.double(forKey: vm.timeKey)
-        timeRemaining = savedTime > 0 ? savedTime : totalTime
-        isActive = timeRemaining > 0
-    }
+    private func startTimer() {
+            // Останавливаем предыдущий таймер, если был
+            stopTimer()
+            
+            // Устанавливаем начальное время
+            timeRemaining = totalTime
+            
+            // Запускаем новый таймер
+            timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
+                if self.timeRemaining > 0 {
+                    self.timeRemaining -= 1
+                } else {
+                    self.stopTimer()
+                    self.vm.timeExpired()
+                }
+            }
+        }
     
     private func stopTimer() {
-        isActive = false
-        timer.upstream.connect().cancel()
-        UserDefaults.standard.removeObject(forKey: vm.timeKey)
+        timer?.invalidate()
+        timer = nil
+    }
+    
+    private func resetTimer() {
+        stopTimer()
+        startTimer()
     }
 }
+
 #Preview {
     TimerView()
         .preferredColorScheme(.dark)
