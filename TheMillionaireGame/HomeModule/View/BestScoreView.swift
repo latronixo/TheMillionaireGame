@@ -29,7 +29,7 @@ struct BestScoreView: View {
                     .resizable()
                     .scaledToFit()
                     .frame(width: UI.Coin.width, height: UI.Coin.height)
-                Text("$\(bestScore)")
+                Text(bestScore.formatted(.number.locale(Locale(identifier: "en_US"))))
                     .font(.system(
                         size: UI.Score.fontSize,
                         weight: UI.Score.fontWeight,
