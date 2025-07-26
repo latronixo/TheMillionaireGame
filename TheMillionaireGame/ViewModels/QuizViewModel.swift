@@ -9,6 +9,10 @@ import SwiftUI
 
 final class QuizViewModel: ObservableObject {
     
+    @Published var fiftyHintWasUsed: Bool = false
+    @Published var callHintWasUsed: Bool = false
+    @Published var audienceHelpHintWasUsed: Bool = false
+    
     @Published var questions: [Question] = []
     @Published var isLoading: Bool = false
     @Published var errorMessage: String? = nil

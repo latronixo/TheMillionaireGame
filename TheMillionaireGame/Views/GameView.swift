@@ -12,6 +12,7 @@ struct GameView: View {
     @Binding var currentScreen: MainScreenDestination
     @State private var showAnswerResult = false
     @State private var isAnswerCorrect = false
+
     
     var body: some View {
         ZStack{
@@ -63,29 +64,35 @@ struct GameView: View {
                             .environmentObject(viewModel)
                         }
                     }
+                    // кнопки подсказок:
                     HStack (spacing: geo.width * 0.08) {
                         Button {
+                            viewModel.fiftyHintWasUsed = true
                             print("--> tapped 50:50")
                         } label: {
                             Image("fiftyRemove")
+                            .opacity(viewModel.fiftyHintWasUsed ? 0.4 : 1.0)
                         }
-                        
+                        .disabled(viewModel.fiftyHintWasUsed)
                         
                         Button {
+                            viewModel.audienceHelpHintWasUsed = true
                             currentScreen = .audienceHelp
                         } label: {
                             Image("audience")
+                            .opacity(viewModel.audienceHelpHintWasUsed ? 0.4 : 1.0)
                         }
-                        
+                        .disabled(viewModel.audienceHelpHintWasUsed)
                         
                         Button {
+                            viewModel.callHintWasUsed = true
                             currentScreen = .call
                         } label: {
                             Image("call")
+                            .opacity(viewModel.callHintWasUsed ? 0.4 : 1.0)
                         }
-                        
+                        .disabled(viewModel.callHintWasUsed)
                     }
-                    
                 }
             }
         }

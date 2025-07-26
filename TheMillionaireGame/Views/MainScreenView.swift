@@ -71,11 +71,11 @@ struct MainScreenView: View {
                             .environmentObject(homeViewModel)
                     case .audienceHelp:
                         if let quizVM = homeViewModel.savedGameViewModel {
-                             AudienceHelp(currentScreen: $currentScreen)
+                             AudienceHelpView(currentScreen: $currentScreen)
                                  .transition(.move(edge: .bottom))
                                  .environmentObject(quizVM)
                          } else {
-                             AudienceHelp(currentScreen: $currentScreen)
+                             AudienceHelpView(currentScreen: $currentScreen)
                                  .transition(.move(edge: .bottom))
                                  .environmentObject(QuizViewModel())
                          }

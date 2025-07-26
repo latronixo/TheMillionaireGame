@@ -8,7 +8,7 @@
 import SwiftUI
 import Charts
 
-struct AudienceHelp: View {
+struct AudienceHelpView: View {
     
     @State private var audienceRespond: [AudienceOpinion] = []
     @State private var isAnimated = false
@@ -87,6 +87,6 @@ struct AudienceHelp: View {
 
 
 #Preview {
-    AudienceHelp(currentScreen: .constant(.audienceHelp))
+    AudienceHelpView(currentScreen: .constant(.audienceHelp))
         .environmentObject(QuizViewModel())
 }
