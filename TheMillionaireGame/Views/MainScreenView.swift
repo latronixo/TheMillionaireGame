@@ -105,6 +105,7 @@ struct MainScreenView: View {
             if newScreen == .home {
                 // Сохраняем данные при возврате на главный экран
                 viewModel.saveGameState(numberQuestion: viewModel.numberCurrentQuestion)
+                homeViewModel.loadSavedGame()
             }
         }
         .onDisappear {
