@@ -59,9 +59,11 @@ final class QuizViewModel: ObservableObject {
         if q < 5 {
             return 0
         } else if q < 10 {
-            return Int(questionPrices[5].currency.amount)
+            return Int(questionPrices[4].currency.amount)
+        } else if q < 14 {
+            return Int(questionPrices[9].currency.amount)
         } else {
-            return Int(questionPrices[10].currency.amount)
+            return Int(questionPrices[14].currency.amount)
         }
     }
     var gameOverPrizeQuestionNumber: Int {  //номер вопроса, соответствующий несгораемой сумме (для отображения на экране GameOver)
@@ -70,8 +72,10 @@ final class QuizViewModel: ObservableObject {
             return 0
         } else if q < 10 {
             return 5
-        } else {
+        } else if q < 14 {
             return 10
+        } else {
+            return 15
         }
     }
     
@@ -153,16 +157,19 @@ final class QuizViewModel: ObservableObject {
         DispatchQueue.main.asyncAfter(deadline: .now() + 9) {
             
             if userAnswer == self.correctAnswer {
-                self.saveGameState(numberQuestion: self.numberCurrentQuestion)
-                self.nextQuestion()
+                if self.numberCurrentQuestion < 14 {
+                    self.saveGameState(numberQuestion: self.numberCurrentQuestion)
+                    self.nextQuestion()
+                } else if self.numberCurrentQuestion == 14 {
+                    self.numberCurrentQuestion = 15
+                    self.saveGameState(numberQuestion: nil)
+                }
             } else {
                 self.saveGameState(numberQuestion: nil)
             }
             
             self.shouldStopTimer = true
         }
-        
-        
     }
     
     func getQuestionsDefault() -> [Question] {

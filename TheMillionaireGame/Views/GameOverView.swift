@@ -11,6 +11,13 @@ struct GameOverView: View {
     @EnvironmentObject var viewModel: QuizViewModel
     @EnvironmentObject var homeViewModel: HomeViewModel
     @Binding var currentScreen: MainScreenDestination
+    private var sayGoodBayPhrase: String {
+        if viewModel.gameOverPrizeQuestionNumber == 15 {
+            return "YOU WIN!"
+        } else {
+            return "GAME OVER"
+        }
+    }
     
     var body: some View {
         NavigationStack {
@@ -92,7 +99,7 @@ struct GameOverView: View {
     }
     
     private var title: some View {
-        Text(UI.GameOver.Title.text)
+        Text(sayGoodBayPhrase)
             .font(.system(size: UI.GameOver.Title.fontSize, weight: UI.GameOver.Title.fontWeight, design: UI.GameOver.Title.fontDesign))
             .foregroundColor(.white)
             .multilineTextAlignment(.center)
@@ -144,9 +151,6 @@ struct GameOverView: View {
                 static let topPadding: CGFloat = 16
             }
         }
-//        .onAppear() {
-//            viewModel.updateBestScoreIfNeeded()
-//        }
     }
 }
 
