@@ -13,7 +13,7 @@ final class QuizViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var errorMessage: String? = nil
     @Published var shouldResetTimer: Bool = false
-    @Published var shouldStopTimer = false
+    @Published var shouldStopTimer: Bool = false
     
     @Published var currentTextQuestion = ""
     var numberCurrentQuestion = 0
@@ -29,6 +29,11 @@ final class QuizViewModel: ObservableObject {
     // Для случая, когда пользователь забрал деньги
     @Published var tookMoneyPrize: Int? = nil
     @Published var tookMoneyQuestionNumber: Int? = nil
+
+    @Published var timer: Timer? = nil
+    @Published var priceOrHintScreenIsShown: Bool = false
+    @Published var timeRemaining: Int = 30
+    let totalTime: Int = 30
 
     func setTookMoneyPrize() {
         // номер вопроса
@@ -360,5 +365,29 @@ final class QuizViewModel: ObservableObject {
     
     func timeExpired() {
         saveGameState(numberQuestion: nil)
+    }
+
+    
+    func startTimer() {
+        // Останавливаем предыдущий таймер, если был
+        stopTimer()
+        
+        // Устанавливаем начальное время
+        timeRemaining = totalTime
+        
+        // Запускаем новый таймер
+        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
+            if self.timeRemaining > 0 {
+                self.timeRemaining -= 1
+            } else {
+                self.stopTimer()
+                self.timeExpired()
+            }
+        }
+    }
+    
+    func stopTimer() {
+        timer?.invalidate()
+        timer = nil
     }
 }

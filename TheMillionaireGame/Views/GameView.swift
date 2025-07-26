@@ -73,6 +73,7 @@ struct GameView: View {
                         
                         Button {
                             currentScreen = .audienceHelp
+                            viewModel.priceOrHintScreenIsShown = true
                         } label: {
                             Image("audience")
                         }
@@ -80,6 +81,7 @@ struct GameView: View {
                         
                         Button {
                             currentScreen = .call
+                            viewModel.priceOrHintScreenIsShown = true
                         } label: {
                             Image("call")
                         }
