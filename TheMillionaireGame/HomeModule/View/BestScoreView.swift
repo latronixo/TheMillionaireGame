@@ -25,11 +25,8 @@ struct BestScoreView: View {
                 .padding(.top, UI.BestScore.topPadding)
             HStack {
                 Spacer()
-                Image(UI.Coin.imageName)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: UI.Coin.width, height: UI.Coin.height)
-                Text(bestScore.formatted(.number.locale(Locale(identifier: "en_US"))))
+                coin
+                Text("$\(bestScore.formatted(.number.locale(Locale(identifier: "en_US")))))")
                     .font(.system(
                         size: UI.Score.fontSize,
                         weight: UI.Score.fontWeight,
@@ -41,6 +38,12 @@ struct BestScoreView: View {
                 Spacer()
             }
         }
+    }
+    private var coin: some View {
+        Image(UI.Coin.imageName)
+            .resizable()
+            .scaledToFit()
+            .frame(width: UI.Coin.width, height: UI.Coin.height)
     }
     
     private enum UI {

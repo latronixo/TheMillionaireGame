@@ -32,7 +32,7 @@ struct GameOver: View {
 //                                Text("Это сумма за вопрос №\(questionNumber)")
 //                            }
                         
-                        Text(UI.GameOver.Level.text + " \(tookNumber - 1)")
+                        Text(UI.GameOver.Level.text + " \(tookNumber)")
                             .font(.system(size: UI.GameOver.Level.fontSize, weight: UI.GameOver.Level.fontWeight, design: UI.GameOver.Level.fontDesign))
                             .foregroundColor(.white)
                             .opacity(UI.GameOver.Level.opacity)
@@ -41,7 +41,7 @@ struct GameOver: View {
                         HStack {
                             Spacer()
                            coin
-                            Text("\(tookPrize)")
+                            Text("$\(tookPrize.formatted(.number.locale(Locale(identifier: "en_US"))))")
                                 .font(.system(size: UI.Score.fontSize, weight: UI.Score.fontWeight, design: UI.Score.fontDesign))
                                 .foregroundColor(.white)
                             Spacer()
@@ -151,7 +151,7 @@ struct GameOver: View {
             }
         }
 //        .onAppear() {
-//            viewModel.updateBestScoreIfNeede()
+//            viewModel.updateBestScoreIfNeeded()
 //        }
     }
 }
