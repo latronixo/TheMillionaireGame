@@ -53,7 +53,7 @@ struct GameView: View {
                                 
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
                                     showAnswerResult = false
-                                    if isCorrect {
+                                    if isCorrect && viewModel.numberCurrentQuestion < 15 {
                                         currentScreen = .priceList
                                     } else {
                                         currentScreen = .gameOver
