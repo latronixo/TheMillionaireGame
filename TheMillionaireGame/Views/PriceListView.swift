@@ -13,6 +13,18 @@ struct PriceListView: View {
     
     let currentQuestion: Int //данные о текущем вопросе получим из вьюмодели или из постоянного хранилища - в зависимости от выбранной реализации
     
+    @ViewBuilder
+    private func priceRows(rowHeight: CGFloat, width: CGFloat) -> some View {
+        ForEach(questionPrices.reversed()) { question in
+            QuestionPriceRow(
+                item: question,
+                height: rowHeight,
+                width: width,
+                isCurrentQuestion: question.id == (currentQuestion + 1)
+            )
+        }
+    }
+    
     var body: some View {
         ZStack {
             LinearGradient(colors: [Color(red: 55/255, green: 76/255, blue: 148/255), Color(red: 16/255, green: 14/255, blue: 22/255)], startPoint: .topLeading, endPoint: .bottomTrailing)
@@ -26,18 +38,9 @@ struct PriceListView: View {
                             .frame(height: outerGeo.height * 0.15)
                         
                         GeometryReader { innerGeo in
-                            
+                            let rowHeight = innerGeo.height / CGFloat(questionPrices.count)
                             VStack(spacing: 0) {
-                                let rowHeight = innerGeo.height / CGFloat(questionPrices.count)
-                                
-                                ForEach(questionPrices.reversed()) { question in
-                                    QuestionPriceRow(
-                                        item: question,
-                                        height: rowHeight,
-                                        width: innerGeo.width * 0.9,
-                                        isCurrentQuestion: question.id == currentQuestion
-                                    )
-                                }
+                                priceRows(rowHeight: rowHeight, width: innerGeo.width * 0.9)
                             }
                         }
                         

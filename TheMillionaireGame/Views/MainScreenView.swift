@@ -19,9 +19,9 @@ enum MainScreenDestination {
 
 struct MainScreenView: View {
     @StateObject private var viewModel = QuizViewModel()
+    @StateObject private var homeViewModel = HomeViewModel()
     @State private var showGameView = false
     @State private var currentScreen: MainScreenDestination = .home
-    
     
     var body: some View {
         NavigationView {
@@ -31,19 +31,38 @@ struct MainScreenView: View {
                     case .home:
                         HomeView(currentScreen: $currentScreen)
                             .transition(.opacity)
-                            .environmentObject(viewModel)
+                            .environmentObject(homeViewModel)
                     case .game:
-                        GameView(currentScreen: $currentScreen)
-                            .transition(.opacity)
-                            .environmentObject(viewModel)
+                        if let quizVM = homeViewModel.savedGameViewModel {
+                            GameView(currentScreen: $currentScreen)
+                                .transition(.opacity)
+                                .environmentObject(quizVM)
+                        } else {
+                            //fallback, если нет сохраненной игры
+                            GameView(currentScreen: $currentScreen)
+                                .transition(.opacity)
+                                .environmentObject(QuizViewModel())
+                        }
                     case .priceList:
-                        PriceListView(currentScreen: $currentScreen, currentQuestion: viewModel.numberCurrentQuestion)
-                            .transition(.opacity)
-                            .environmentObject(viewModel)
+                        if let quizVM = homeViewModel.savedGameViewModel {
+                                PriceListView(currentScreen: $currentScreen, currentQuestion: quizVM.numberCurrentQuestion)
+                                    .transition(.opacity)
+                                    .environmentObject(quizVM)
+                            } else {
+                                PriceListView(currentScreen: $currentScreen, currentQuestion: 0)
+                                    .transition(.opacity)
+                                    .environmentObject(QuizViewModel())
+                            }
                     case .gameOver:
-                        GameOver(currentScreen: $currentScreen)
-                            .transition(.opacity)
-                            .environmentObject(viewModel)
+                        if let quizVM = homeViewModel.savedGameViewModel {
+                            GameOver(currentScreen: $currentScreen)
+                                .transition(.opacity)
+                                .environmentObject(quizVM)
+                        } else {
+                            GameOver(currentScreen: $currentScreen)
+                                .transition(.opacity)
+                                .environmentObject(QuizViewModel())
+                        }
                     case .rules:
                         RulesView(currentScreen: $currentScreen)
                             .transition(.opacity)

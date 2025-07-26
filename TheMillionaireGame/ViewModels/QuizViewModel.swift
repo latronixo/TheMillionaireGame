@@ -13,10 +13,10 @@ final class QuizViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var errorMessage: String? = nil
     
-    var currentTextQuestion = ""
+    @Published var currentTextQuestion = ""
     var numberCurrentQuestion = 0
-    var answers = ["", "", "", ""]
-    var correctAnswer = ""
+    @Published var answers = ["", "", "", ""]
+    @Published var correctAnswer = ""
     var correctAnswerIndex: Int? {
         answers.firstIndex(of: correctAnswer)
     }
@@ -29,9 +29,12 @@ final class QuizViewModel: ObservableObject {
     @Published var tookMoneyQuestionNumber: Int? = nil
 
     func setTookMoneyPrize() {
-        // номер вопроса - 1
-        let questionIndex = numberCurrentQuestion - 1
-        if questionIndex >= 0 && questionIndex < questionPrices.count {
+        // номер вопроса
+        let questionIndex = numberCurrentQuestion
+        if questionIndex == 0 {
+            tookMoneyPrize = 0
+            tookMoneyQuestionNumber = 0
+        } else if questionIndex > 0 && questionIndex < questionPrices.count {
             tookMoneyPrize = Int(questionPrices[questionIndex-1].currency.amount)
             tookMoneyQuestionNumber = questionIndex
         } else {
@@ -50,9 +53,9 @@ final class QuizViewModel: ObservableObject {
         if q < 5 {
             return 0
         } else if q < 10 {
-            return Int(questionPrices[4].currency.amount)
+            return Int(questionPrices[5].currency.amount)
         } else {
-            return Int(questionPrices[9].currency.amount)
+            return Int(questionPrices[10].currency.amount)
         }
     }
     var gameOverPrizeQuestionNumber: Int {  //номер вопроса, соответствующий несгораемой сумме (для отображения на экране GameOver)
@@ -78,7 +81,6 @@ final class QuizViewModel: ObservableObject {
             if !questionsFromAPI.isEmpty {
                 await MainActor.run {
                     self.questions = questionsFromAPI
-                    self.nextQuestion()
                     self.isLoading = false
                 }
                 self.saveQuestionsToUserDefaults()
@@ -89,7 +91,6 @@ final class QuizViewModel: ObservableObject {
                 if !cachedQuestions.isEmpty {
                     await MainActor.run {
                         self.questions = cachedQuestions
-                        self.nextQuestion()
                         self.isLoading = false
                     }
                 }
@@ -121,12 +122,18 @@ final class QuizViewModel: ObservableObject {
     }
     
     private func nextQuestion() {
-        guard numberCurrentQuestion + 1 < questions.count else { return }
-        numberCurrentQuestion += 1
-        currentTextQuestion = questions[numberCurrentQuestion].question.htmlDecoded //кавычки API останутся кавычками, а не &quot;
-        correctAnswer = questions[numberCurrentQuestion].correctAnswer.htmlDecoded //кавычки API останутся кавычками, а не &quot;
-        print("Вопрос \(numberCurrentQuestion). Правильный ответ: \(correctAnswer)")
-        answers = ([correctAnswer] + questions[numberCurrentQuestion].incorrectAnswers.map{ $0.htmlDecoded } ).shuffled() //кавычки API останутся кавычками, а не &quot;
+        let nextIndex = numberCurrentQuestion + 1
+        guard questions.indices.contains(nextIndex) else { return }
+        initializeQuestion(at: nextIndex)
+    }
+    
+    func initializeQuestion(at index: Int) {
+        guard questions.indices.contains(index) else { return }
+        numberCurrentQuestion = index
+        currentTextQuestion = questions[numberCurrentQuestion].question.htmlDecoded
+        correctAnswer = questions[numberCurrentQuestion].correctAnswer.htmlDecoded
+        print("Вопрос \(numberCurrentQuestion+1). Правильный ответ: \(correctAnswer)")
+        answers = ([correctAnswer] + questions[numberCurrentQuestion].incorrectAnswers.map{ $0.htmlDecoded } ).shuffled()
     }
     
     func answerTapped(_ index: Int) {
@@ -137,11 +144,11 @@ final class QuizViewModel: ObservableObject {
         ///надо остановить таймер
         
         //спустя 5 секунд
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 9) {
             
             if userAnswer == self.correctAnswer {
-                self.nextQuestion()
                 self.saveGameState(numberQuestion: self.numberCurrentQuestion)
+                self.nextQuestion()
             } else {
                 self.saveGameState(numberQuestion: nil)
             }

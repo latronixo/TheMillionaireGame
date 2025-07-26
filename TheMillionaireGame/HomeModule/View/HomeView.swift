@@ -9,16 +9,9 @@
 import SwiftUI
 
 struct HomeView: View {
-    let level: Int?
-    @StateObject private var viewModel: HomeViewModel
+    @EnvironmentObject private var viewModel: HomeViewModel
     @Binding var currentScreen: MainScreenDestination
 
-    init(level: Int? = nil, currentScreen: Binding<MainScreenDestination>? = nil) {
-        self.level = level
-        _viewModel = StateObject(wrappedValue: HomeViewModel(level: level))
-        _currentScreen = currentScreen ?? .constant(.home)
-    }
-    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -35,9 +28,11 @@ struct HomeView: View {
                     ButtonsView(
                         hasUnfinishedGame: viewModel.hasUnfinishedGame,
                         onNewGame: {
+                            viewModel.startNewGame()
                             currentScreen = .game
                         },
                         onContinueGame: {
+                            viewModel.continueGame()
                             currentScreen = .game
                         }
                     )
@@ -107,6 +102,8 @@ struct HomeView: View {
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
-        HomeView()
+        // Мокаем MainScreenDestination и HomeViewModel для превью
+        HomeView(currentScreen: .constant(.home))
+            .environmentObject(HomeViewModel())
     }
 }

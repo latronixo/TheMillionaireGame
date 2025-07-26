@@ -17,7 +17,8 @@ final class HomeViewModel: ObservableObject {
     @Published var isGameOverView: Bool = false
     @Published var winAmount: Int?
     @Published var savedGameViewModel: QuizViewModel?
-
+    @Published var quizViewModel: QuizViewModel = QuizViewModel()
+    
     
     let level: Int?
     
@@ -52,11 +53,26 @@ final class HomeViewModel: ObservableObject {
     }
     
     func startNewGame() {
-        self.showGameView = true
+        let newQuizViewModel = QuizViewModel()
+        self.savedGameViewModel = newQuizViewModel
+        Task {
+            await newQuizViewModel.loadQuestions()
+            await MainActor.run {
+                newQuizViewModel.initializeQuestion(at: 0)
+            }
+        }
     }
     
     func continueGame() {
-        self.savedGameViewModel = HomeModel.loadSavedGame()
-        self.hasUnfinishedGame = savedGameViewModel != nil
+        if let savedIndexQuestion = UserDefaults.standard.value(forKey: "savedCurrentQuestions") as? Int {
+            let vm = QuizViewModel()
+            self.savedGameViewModel = vm
+            Task {
+                await vm.loadQuestions()
+                await MainActor.run {
+                    vm.initializeQuestion(at: savedIndexQuestion)
+                }
+            }
+        }
     }
 }
