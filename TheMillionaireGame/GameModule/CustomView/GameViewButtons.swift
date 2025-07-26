@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct GameViewButtons: View {
+    
     let answers: [String]
     let correctAnswerIndex: Int
     let answerTapped: (Int) -> Void
@@ -15,6 +16,7 @@ struct GameViewButtons: View {
 
     @State private var selectedIndex: Int? = nil
     @State var showCorrectOrNot = false
+    @EnvironmentObject var vm: QuizViewModel
     
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
@@ -26,10 +28,19 @@ struct GameViewButtons: View {
                     height: CGFloat(62),
                     action: {
                         guard selectedIndex == nil else { return }
+                        
+                        // 1. Останавливаем таймер сразу при нажатии
+                        vm.shouldStopTimer = true
+                        
+                        // 2. Запоминаем выбранный ответ
                         withAnimation {
                             selectedIndex = index
                         }
+                        
+                        // 3. Вызываем обработчик ответа
                         answerTapped(index)
+                        
+                        // 4. Через 5 секунд показываем правильность ответа
                         DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
                             withAnimation {
                                 showCorrectOrNot = true
@@ -70,4 +81,5 @@ struct GameViewButtons: View {
             print("Tapped index: \(index)")
         }
     )
+    .environmentObject(QuizViewModel())
 }

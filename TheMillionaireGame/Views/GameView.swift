@@ -10,7 +10,8 @@ import SwiftUI
 struct GameView: View {
     @EnvironmentObject var viewModel: QuizViewModel
     @Binding var currentScreen: MainScreenDestination
-    
+    @State private var showAnswerResult = false
+    @State private var isAnswerCorrect = false
     
     var body: some View {
         ZStack{
@@ -38,13 +39,29 @@ struct GameView: View {
                                 .lineLimit(4)
                             
                             GameViewButtons(answers: viewModel.answers, correctAnswerIndex: viewModel.answers.firstIndex(of: viewModel.correctAnswer) ?? -1) { index in
+                                
+                                viewModel.shouldStopTimer = true
+                                
+                                let isCorrect = viewModel.answers[index] == viewModel.correctAnswer
+                                isAnswerCorrect = isCorrect
+                                
+                                // Показываем результат
+                                showAnswerResult = true
+                                
+                                // Обрабатываем ответ
                                 viewModel.answerTapped(index)
                                 
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 8) {
-                                    currentScreen = .priceList
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                                    showAnswerResult = false
+                                    if isCorrect {
+                                        currentScreen = .priceList
+                                    } else {
+                                        currentScreen = .gameOver
+                                    }
                                 }
                                 
                             }
+                            .environmentObject(viewModel)
                         }
                     }
                     .task(id: viewModel.questions) {

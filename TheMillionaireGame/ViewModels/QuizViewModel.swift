@@ -12,6 +12,8 @@ final class QuizViewModel: ObservableObject {
     @Published var questions: [Question] = []
     @Published var isLoading: Bool = false
     @Published var errorMessage: String? = nil
+    @Published var shouldResetTimer: Bool = false
+    @Published var shouldStopTimer = false
     
     var currentTextQuestion = ""
     var numberCurrentQuestion = 0
@@ -127,9 +129,14 @@ final class QuizViewModel: ObservableObject {
         correctAnswer = questions[numberCurrentQuestion].correctAnswer.htmlDecoded //кавычки API останутся кавычками, а не &quot;
         print("Вопрос \(numberCurrentQuestion). Правильный ответ: \(correctAnswer)")
         answers = ([correctAnswer] + questions[numberCurrentQuestion].incorrectAnswers.map{ $0.htmlDecoded } ).shuffled() //кавычки API останутся кавычками, а не &quot;
+        
+        shouldResetTimer = true
     }
     
     func answerTapped(_ index: Int) {
+        
+        shouldStopTimer = true
+        
         let userAnswer = answers[index]
         
         ///надо проиграть в течение 5 секунд интригующая музыка "otvet-prinyat.mp3"
@@ -148,7 +155,11 @@ final class QuizViewModel: ObservableObject {
                 self.saveGameState(numberQuestion: nil)
                 print("Неправильный ответ")
             }
+            
+            self.shouldStopTimer = true
         }
+        
+        
     }
     
     func getQuestionsDefault() -> [Question] {
@@ -344,5 +355,11 @@ final class QuizViewModel: ObservableObject {
             if currentResult > previousBest {
                 UserDefaults.standard.set(currentResult, forKey: bestScoreKey)
             }
+    }
+    
+    //MARK: - Work with Timer
+    
+    func timeExpired() {
+        saveGameState(numberQuestion: nil)
     }
 }
