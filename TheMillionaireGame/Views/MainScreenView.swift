@@ -14,6 +14,7 @@ enum MainScreenDestination {
     case priceList
     case gameOver
     case audienceHelp
+    case call
 }
 
 struct MainScreenView: View {
@@ -49,6 +50,10 @@ struct MainScreenView: View {
                             .environmentObject(viewModel)
                     case .audienceHelp:
                         AudienceHelp(currentScreen: $currentScreen)
+                            .transition(.move(edge: .bottom))
+                            .environmentObject(viewModel)
+                    case .call:
+                        CallView(currentScreen: $currentScreen)
                             .transition(.move(edge: .bottom))
                             .environmentObject(viewModel)
                     }

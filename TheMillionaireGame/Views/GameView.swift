@@ -68,7 +68,7 @@ struct GameView: View {
                         
                         
                         Button {
-                            print("--> tapped call friend")
+                            currentScreen = .call
                         } label: {
                             Image("call")
                         }
