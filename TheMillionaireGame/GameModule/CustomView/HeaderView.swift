@@ -30,8 +30,8 @@ struct HeaderView: View {
                 if viewModel.isLoading {
                     ProgressView("Loading questions...")
                 } else {
-                    Text("Question №\(viewModel.numberCurrentQuestion)")
-                    let price = (viewModel.numberCurrentQuestion > 0 && viewModel.numberCurrentQuestion <= questionPrices.count) ? Int(questionPrices[viewModel.numberCurrentQuestion - 1].currency.amount) : 0
+                    Text("Question №\(viewModel.numberCurrentQuestion+1)")
+                    let price = (viewModel.numberCurrentQuestion >= 0 && viewModel.numberCurrentQuestion < questionPrices.count) ? Int(questionPrices[viewModel.numberCurrentQuestion].currency.amount) : 0
                     Text("Price: $\(price.formatted(.number.locale(Locale(identifier: "en_US"))))")
                 }
             }
