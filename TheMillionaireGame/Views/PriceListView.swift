@@ -47,7 +47,7 @@ struct PriceListView: View {
                         Button {
                             currentScreen = .game
                         } label: {
-                            Text("Back to game")
+                            Text("Continue")
                                 .font(.system(size: 18, weight: .bold))
                                 .foregroundStyle(.yellow)
                         }
