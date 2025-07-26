@@ -10,6 +10,7 @@ import SwiftUI
 struct PriceListView: View {
     @EnvironmentObject var viewModel: QuizViewModel
     @Binding var currentScreen: MainScreenDestination
+    @StateObject private var soundManager = SoundManager.shared
     
     let currentQuestion: Int //данные о текущем вопросе получим из вьюмодели или из постоянного хранилища - в зависимости от выбранной реализации
     
@@ -63,6 +64,9 @@ struct PriceListView: View {
                         .offset(y: outerGeo.width * 0.04)
                 }
             }
+        }
+        .onDisappear {
+            soundManager.stopSound("correctAnswer")
         }
     }
 }

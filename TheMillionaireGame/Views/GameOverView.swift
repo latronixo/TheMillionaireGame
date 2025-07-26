@@ -11,6 +11,7 @@ struct GameOverView: View {
     @EnvironmentObject var viewModel: QuizViewModel
     @EnvironmentObject var homeViewModel: HomeViewModel
     @Binding var currentScreen: MainScreenDestination
+    @StateObject private var soundManager = SoundManager.shared
     
     var body: some View {
         NavigationStack {
@@ -68,6 +69,12 @@ struct GameOverView: View {
                     Spacer()
                 }
                 .padding()
+            }
+            .onAppear {
+                soundManager.playSound("wrongAnswer")
+            }
+            .onDisappear {
+                soundManager.stopSound("wrongAnswer")
             }
         }
     }

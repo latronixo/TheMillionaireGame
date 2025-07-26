@@ -10,6 +10,7 @@ import SwiftUI
 struct GameView: View {
     @EnvironmentObject var viewModel: QuizViewModel
     @Binding var currentScreen: MainScreenDestination
+    @StateObject private var soundManager = SoundManager.shared
     @State private var showAnswerResult = false
     @State private var isAnswerCorrect = false
     
@@ -40,7 +41,7 @@ struct GameView: View {
                             
                             GameViewButtons(answers: viewModel.answers, correctAnswerIndex: viewModel.answers.firstIndex(of: viewModel.correctAnswer) ?? 0) { index in
                                 viewModel.shouldStopTimer = true
-                                                                
+                                
                                 let isCorrect = viewModel.answers[index] == viewModel.correctAnswer
                                 isAnswerCorrect = isCorrect
                                 
@@ -88,6 +89,12 @@ struct GameView: View {
                     
                 }
             }
+        }
+        .onAppear {
+            soundManager.playSound("clockTicking", loop: true)
+        }
+        .onDisappear {
+            soundManager.stopSound("clockTicking")
         }
     }
 }

@@ -15,8 +15,9 @@ struct GameViewButtons: View {
     private let ABCD = ["A: ", "B: ", "C: ", "D: "]
 
     @State private var selectedIndex: Int? = nil
-    @State var showCorrectOrNot = false
+    @State private var showCorrectOrNot = false
     @EnvironmentObject var vm: QuizViewModel
+    @EnvironmentObject var soundManager: SoundManager
     
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
@@ -29,21 +30,31 @@ struct GameViewButtons: View {
                     action: {
                         guard selectedIndex == nil else { return }
                         
-                        // 1. Останавливаем таймер сразу при нажатии
+                        // 1. Останавливаем таймер и звук часов
                         vm.shouldStopTimer = true
+                        soundManager.stopSound("clockTicking")
                         
-                        // 2. Запоминаем выбранный ответ
+                        // 2. Запускаем звук принятия ответа
+                        soundManager.playSound("acceptedAnswer")
+                        
+                        // 3. Запоминаем выбранный ответ
                         withAnimation {
                             selectedIndex = index
                         }
                         
-                        // 3. Вызываем обработчик ответа
+                        // 4. Вызываем обработчик ответа
                         answerTapped(index)
                         
-                        // 4. Через 5 секунд показываем правильность ответа
+                        // 5. Через 5 секунд показываем правильность ответа
                         DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
                             withAnimation {
                                 showCorrectOrNot = true
+                                let isCorrect = index == correctAnswerIndex
+                                if isCorrect {
+                                    soundManager.playSound("correctAnswer")
+                                } else {
+                                    soundManager.playSound("wrongAnswer")
+                                }
                             }
                         }
                     },
@@ -51,9 +62,12 @@ struct GameViewButtons: View {
                 )
                 .disabled(selectedIndex != nil)
             }
-            
+        }
+        .onDisappear {
+            soundManager.stopSound("acceptedAnswer")
         }
     }
+    
     private func buttonColor(for index: Int) -> Color {
           if let selected = selectedIndex {
               if !showCorrectOrNot {
@@ -82,4 +96,5 @@ struct GameViewButtons: View {
         }
     )
     .environmentObject(QuizViewModel())
+    .environmentObject(SoundManager.shared)
 }

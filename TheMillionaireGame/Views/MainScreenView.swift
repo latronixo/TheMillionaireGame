@@ -22,6 +22,7 @@ struct MainScreenView: View {
     @StateObject private var homeViewModel = HomeViewModel()
     @State private var showGameView = false
     @State private var currentScreen: MainScreenDestination = .home
+    @StateObject private var soundManager = SoundManager.shared
     
     var body: some View {
         NavigationView {
@@ -30,6 +31,9 @@ struct MainScreenView: View {
                     switch currentScreen {
                     case .home:
                         HomeView(currentScreen: $currentScreen)
+                            .onAppear {
+                                soundManager.stopAllSounds()
+                            }
                             .transition(.opacity)
                             .environmentObject(homeViewModel)
                     case .game:
@@ -95,6 +99,7 @@ struct MainScreenView: View {
             }
             .animation(.easeInOut, value: currentScreen)
         }
+        .environmentObject(soundManager)
         .navigationViewStyle(StackNavigationViewStyle())
         .navigationBarHidden(true)
         .onAppear {
