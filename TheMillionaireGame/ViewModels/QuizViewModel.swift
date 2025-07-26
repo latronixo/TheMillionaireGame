@@ -139,14 +139,11 @@ final class QuizViewModel: ObservableObject {
         //спустя 5 секунд
         DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
             
-            //let isAnswerRight = userAnswer == self.correctAnswer
             if userAnswer == self.correctAnswer {
                 self.nextQuestion()
                 self.saveGameState(numberQuestion: self.numberCurrentQuestion)
-                print("Правильный ответ")
             } else {
                 self.saveGameState(numberQuestion: nil)
-                print("Неправильный ответ")
             }
         }
     }
@@ -322,7 +319,7 @@ final class QuizViewModel: ObservableObject {
 
     func loadGameState() {
         if let savedIndex = UserDefaults.standard.value(forKey: "savedCurrentQuestion") as? Int {
-            self.numberCurrentQuestion = savedIndex
+            self.numberCurrentQuestion = savedIndex - 1
             if !questions.isEmpty && numberCurrentQuestion < questions.count {
                 self.currentTextQuestion = questions[numberCurrentQuestion].question
                 self.answers = ([questions[numberCurrentQuestion].correctAnswer] + questions[numberCurrentQuestion].incorrectAnswers).shuffled()
@@ -332,7 +329,7 @@ final class QuizViewModel: ObservableObject {
         }
     }
     
-    func updateBestScoreIfNeede() {
+    func updateBestScoreIfNeeded() {
         let currentResult: Int
             if let tookPrize = tookMoneyPrize {
                 currentResult = tookPrize

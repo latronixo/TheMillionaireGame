@@ -24,18 +24,14 @@ struct HomeModel {
         return value
     }
     
-    
     static func loadSavedGame() -> QuizViewModel? {
         // todo
         // тут восстанавливать вью модель или как-то иначе восстанавливать стейт игры
         
         //mock
         
-        
         if let savedIndexQuestion = UserDefaults.standard.value(forKey: "savedCurrentQuestion") as? Int {
-            let vm = QuizViewModel()
-            vm.numberCurrentQuestion = savedIndexQuestion
-            return vm
+            return QuizViewModel()
         }
         return nil
     }

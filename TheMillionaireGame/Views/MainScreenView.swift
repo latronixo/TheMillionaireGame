@@ -66,18 +66,18 @@ struct MainScreenView: View {
         .navigationBarHidden(true)
         .onAppear {
             // Принудительно загружаем данные при появлении view
-            // например viewModel.loadData()
+            viewModel.loadGameState()
         }
         .onChange(of: currentScreen) { newScreen in
             if newScreen == .home {
                 // Сохраняем данные при возврате на главный экран
-                // например viewModel.saveData()
+                viewModel.saveGameState(numberQuestion: viewModel.numberCurrentQuestion)
             }
         }
         .onDisappear {
             print("MainScreenView: Disappeared")
             // Сохраняем данные при исчезновении view
-            //viewModel.saveData()
+            viewModel.saveGameState(numberQuestion: viewModel.numberCurrentQuestion)
         }
     }
 }

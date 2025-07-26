@@ -35,17 +35,10 @@ struct HomeView: View {
                     ButtonsView(
                         hasUnfinishedGame: viewModel.hasUnfinishedGame,
                         onNewGame: {
-                        //    currentScreen = .priceList
                             currentScreen = .game
                         },
                         onContinueGame: {
-                            if let quizViewModel = viewModel.savedGameViewModel {
-                                quizViewModel.loadGameState()
-                                //currentScreen = .priceList
-                                currentScreen = .game
-                            } else {
-                                print("error: no saved game")
-                            }
+                            currentScreen = .game
                         }
                     )
                     Spacer()
