@@ -76,6 +76,11 @@ struct GameOverView: View {
                 }
                 .padding()
             }
+            .onAppear {
+                soundManager.playSound("wrongAnswer")
+            }
+            .onDisappear {
+                soundManager.stopSound("wrongAnswer")
             .onAppear() {
                 viewModel.updateBestScoreIfNeeded()
             }
