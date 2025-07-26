@@ -11,6 +11,8 @@ struct GameOverView: View {
     @EnvironmentObject var viewModel: QuizViewModel
     @EnvironmentObject var homeViewModel: HomeViewModel
     @Binding var currentScreen: MainScreenDestination
+    @StateObject private var soundManager = SoundManager.shared
+
     private var sayGoodBayPhrase: String {
         if viewModel.gameOverPrizeQuestionNumber == 15 {
             return "YOU WIN!"
@@ -77,12 +79,11 @@ struct GameOverView: View {
                 .padding()
             }
             .onAppear {
+                viewModel.updateBestScoreIfNeeded()
                 soundManager.playSound("wrongAnswer")
             }
             .onDisappear {
                 soundManager.stopSound("wrongAnswer")
-            .onAppear() {
-                viewModel.updateBestScoreIfNeeded()
             }
         }
     }
