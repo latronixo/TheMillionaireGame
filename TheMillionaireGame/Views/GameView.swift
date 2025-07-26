@@ -39,6 +39,15 @@ struct GameView: View {
                                 .lineLimit(4)
                             
                             GameViewButtons(answers: viewModel.answers, correctAnswerIndex: viewModel.answers.firstIndex(of: viewModel.correctAnswer) ?? 0) { index in
+                                viewModel.shouldStopTimer = true
+                                                                
+                                let isCorrect = viewModel.answers[index] == viewModel.correctAnswer
+                                isAnswerCorrect = isCorrect
+                                
+                                // Показываем результат
+                                showAnswerResult = true
+                                
+                                // Обрабатываем ответ
                                 viewModel.answerTapped(index)
                                 
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
