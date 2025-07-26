@@ -67,8 +67,8 @@ struct GameView: View {
                     // кнопки подсказок:
                     HStack (spacing: geo.width * 0.08) {
                         Button {
-                            viewModel.fiftyHintWasUsed = true
-                            print("--> tapped 50:50")
+                            viewModel.fiftyHintWasUsed = true                          
+                            viewModel.fiftyFifty()
                         } label: {
                             Image("fiftyRemove")
                             .opacity(viewModel.fiftyHintWasUsed ? 0.4 : 1.0)
