@@ -348,7 +348,7 @@ final class QuizViewModel: ObservableObject {
 
     func loadGameState() {
         if let savedIndex = UserDefaults.standard.value(forKey: "savedCurrentQuestion") as? Int {
-            self.numberCurrentQuestion = savedIndex - 1
+            self.numberCurrentQuestion = savedIndex
             if !questions.isEmpty && numberCurrentQuestion < questions.count {
                 self.currentTextQuestion = questions[numberCurrentQuestion].question
                 self.answers = ([questions[numberCurrentQuestion].correctAnswer] + questions[numberCurrentQuestion].incorrectAnswers).shuffled()

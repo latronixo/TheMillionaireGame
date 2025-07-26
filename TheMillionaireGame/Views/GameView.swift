@@ -14,7 +14,6 @@ struct GameView: View {
     @State private var showAnswerResult = false
     @State private var isAnswerCorrect = false
 
-    
     var body: some View {
         ZStack{
             LinearGradient(colors: [Color(red: 55/255, green: 76/255, blue: 148/255), Color(red: 16/255, green: 14/255, blue: 22/255)], startPoint: .topLeading, endPoint: .bottomTrailing)
@@ -46,14 +45,10 @@ struct GameView: View {
                                 let isCorrect = viewModel.answers[index] == viewModel.correctAnswer
                                 isAnswerCorrect = isCorrect
                                 
-                                // Показываем результат
-                                showAnswerResult = true
-                                
                                 // Обрабатываем ответ
                                 viewModel.answerTapped(index)
                                 
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-                                    showAnswerResult = false
                                     if isCorrect && viewModel.numberCurrentQuestion < 15 {
                                         currentScreen = .priceList
                                     } else {
@@ -107,6 +102,16 @@ struct GameView: View {
                         viewModel.stopTimer()
                         viewModel.saveGameState(numberQuestion: nil)
                         currentScreen = .gameOver
+                    }
+                }
+                .onDisappear {
+                    if viewModel.timeRemaining > 0 {
+                        viewModel.saveGameState(numberQuestion: viewModel.numberCurrentQuestion)
+                    }
+                }
+                .onAppear {
+                    if !viewModel.isLoading {
+                        viewModel.startTimer()
                     }
                 }
             }
