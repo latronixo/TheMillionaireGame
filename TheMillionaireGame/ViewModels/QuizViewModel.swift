@@ -30,12 +30,12 @@ final class QuizViewModel: ObservableObject {
 
     func setTookMoneyPrize() {
         // номер вопроса - 1
-        let questionIndex = numberCurrentQuestion
+        let questionIndex = numberCurrentQuestion - 1
         if questionIndex >= 0 && questionIndex < questionPrices.count {
-            tookMoneyPrize = Int(questionPrices[questionIndex].currency.amount)
-            tookMoneyQuestionNumber = numberCurrentQuestion
+            tookMoneyPrize = Int(questionPrices[questionIndex-1].currency.amount)
+            tookMoneyQuestionNumber = questionIndex
         } else {
-            tookMoneyPrize = 0
+            tookMoneyPrize = nil
             tookMoneyQuestionNumber = nil
         }
     }
