@@ -96,6 +96,18 @@ struct GameView: View {
                         .disabled(viewModel.callHintWasUsed)
                     }
                 }
+                .onChange(of: viewModel.isLoading) { isLoading in
+                    if !isLoading {
+                        viewModel.startTimer()
+                    }
+                }
+                .onChange(of: viewModel.timeRemaining) { remaining in
+                    if remaining == 0 {
+                        viewModel.stopTimer()
+                        viewModel.saveGameState(numberQuestion: nil)
+                        currentScreen = .gameOver
+                    }
+                }
             }
         }
     }

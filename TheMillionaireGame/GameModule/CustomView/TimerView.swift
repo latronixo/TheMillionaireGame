@@ -54,7 +54,6 @@ struct TimerView: View {
                 vm.priceOrHintScreenIsShown = false
                 return
             }
-            vm.startTimer()
         }
         
         .onDisappear {
