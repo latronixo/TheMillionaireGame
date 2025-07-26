@@ -78,6 +78,7 @@ struct GameView: View {
                         Button {
                             viewModel.audienceHelpHintWasUsed = true
                             currentScreen = .audienceHelp
+                            viewModel.priceOrHintScreenIsShown = true
                         } label: {
                             Image("audience")
                             .opacity(viewModel.audienceHelpHintWasUsed ? 0.4 : 1.0)
@@ -87,6 +88,7 @@ struct GameView: View {
                         Button {
                             viewModel.callHintWasUsed = true
                             currentScreen = .call
+                            viewModel.priceOrHintScreenIsShown = true
                         } label: {
                             Image("call")
                             .opacity(viewModel.callHintWasUsed ? 0.4 : 1.0)

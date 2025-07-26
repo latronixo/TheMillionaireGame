@@ -35,7 +35,7 @@ struct CallView: View {
                                 .lineLimit(2)
                                 .multilineTextAlignment(.center)
                             
-                            Text("\(viewModel.answers.randomElement() ?? "I have no idea 😥")")
+                            Text("\(viewModel.correctAnswer)")
                                 .font(.largeTitle)
                                 .foregroundStyle(.white)
                                 .lineLimit(3)

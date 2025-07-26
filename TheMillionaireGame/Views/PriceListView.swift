@@ -46,6 +46,7 @@ struct PriceListView: View {
                         
                         Button {
                             currentScreen = .game
+                            viewModel.priceOrHintScreenIsShown = true
                         } label: {
                             Text("Continue")
                                 .font(.system(size: 18, weight: .bold))

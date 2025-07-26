@@ -46,6 +46,7 @@ struct HeaderView: View {
             
             Button {
                 currentScreen = .priceList
+                viewModel.priceOrHintScreenIsShown = true
             } label: {
                 Image(systemName: "align.horizontal.right")
                     .resizable()
