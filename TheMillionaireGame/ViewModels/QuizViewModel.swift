@@ -150,9 +150,6 @@ final class QuizViewModel: ObservableObject {
         
         ///надо проиграть в течение 5 секунд интригующая музыка "otvet-prinyat.mp3"
         
-        ///надо остановить таймер
-        
-        //спустя 5 секунд
         DispatchQueue.main.asyncAfter(deadline: .now() + 9) {
             
             if userAnswer == self.correctAnswer {

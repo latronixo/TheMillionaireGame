@@ -31,6 +31,8 @@ final class HomeViewModel: ObservableObject {
         
         self.level = level
         
+        loadSavedGame()
+        
         //mock
         if level != nil {
             winAmount = 1000
@@ -38,6 +40,21 @@ final class HomeViewModel: ObservableObject {
         //
         
         loadData()
+    }
+    
+    func loadSavedGame() {
+        if let savedIndexQuestion = UserDefaults.standard.value(forKey: "savedCurrentQuestion") as? Int {
+            let vm = QuizViewModel()
+            self.savedGameViewModel = vm
+            Task {
+                await vm.loadQuestions()
+                await MainActor.run {
+                    vm.initializeQuestion(at: savedIndexQuestion)
+                }
+            }
+        } else {
+            self.savedGameViewModel = nil
+        }
     }
     
     func loadData() {
@@ -64,7 +81,7 @@ final class HomeViewModel: ObservableObject {
     }
     
     func continueGame() {
-        if let savedIndexQuestion = UserDefaults.standard.value(forKey: "savedCurrentQuestions") as? Int {
+        if let savedIndexQuestion = UserDefaults.standard.value(forKey: "savedCurrentQuestion") as? Int {
             let vm = QuizViewModel()
             self.savedGameViewModel = vm
             Task {

@@ -41,6 +41,9 @@ struct HomeView: View {
                 .padding()
             }
             .toolbar { helpToolbar }
+            .onAppear {
+                viewModel.loadSavedGame()
+            }
         }
     }
 
