@@ -30,7 +30,7 @@ struct HomeModel {
         
         //mock
         
-        if let savedIndexQuestion = UserDefaults.standard.value(forKey: "savedCurrentQuestion") as? Int {
+        if UserDefaults.standard.value(forKey: "savedCurrentQuestion") is Int {
             return QuizViewModel()
         }
         return nil
