@@ -32,7 +32,7 @@ struct HeaderView: View {
                 } else {
                     Text("Question №\(viewModel.numberCurrentQuestion)")
                     let price = (viewModel.numberCurrentQuestion > 0 && viewModel.numberCurrentQuestion <= questionPrices.count) ? Int(questionPrices[viewModel.numberCurrentQuestion - 1].currency.amount) : 0
-                    Text("Price: \(price)$")
+                    Text("Price: $\(price.formatted(.number.locale(Locale(identifier: "us_US"))))")
                 }
             }
             .fontWeight(.medium)
