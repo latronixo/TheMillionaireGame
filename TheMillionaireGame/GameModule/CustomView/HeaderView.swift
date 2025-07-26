@@ -27,9 +27,13 @@ struct HeaderView: View {
             Spacer()
             
             VStack{
-                Text("Question №\(viewModel.numberCurrentQuestion)")
-                let price = (viewModel.numberCurrentQuestion > 0 && viewModel.numberCurrentQuestion <= questionPrices.count) ? Int(questionPrices[viewModel.numberCurrentQuestion - 1].currency.amount) : 0
-                Text("Price: \(price)$")
+                if viewModel.isLoading {
+                    ProgressView("Loading questions...")
+                } else {
+                    Text("Question №\(viewModel.numberCurrentQuestion)")
+                    let price = (viewModel.numberCurrentQuestion > 0 && viewModel.numberCurrentQuestion <= questionPrices.count) ? Int(questionPrices[viewModel.numberCurrentQuestion - 1].currency.amount) : 0
+                    Text("Price: \(price)$")
+                }
             }
             .fontWeight(.medium)
             .font(.subheadline)
