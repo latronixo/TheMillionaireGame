@@ -26,7 +26,7 @@ struct BestScoreView: View {
             HStack {
                 Spacer()
                 coin
-                Text("$\(bestScore.formatted(.number.locale(Locale(identifier: "en_US")))))")
+                Text("$\(bestScore.formatted(.number.locale(Locale(identifier: "en_US"))))")
                     .font(.system(
                         size: UI.Score.fontSize,
                         weight: UI.Score.fontWeight,
