@@ -14,7 +14,7 @@ import SwiftUI
 ///
 struct HexagonalButton: View {
     let text: String
-    let color: Color
+    let gradient: LinearGradient
     var width: CGFloat
     var height: CGFloat
     let action: () -> Void
@@ -29,7 +29,7 @@ struct HexagonalButton: View {
                 } label: {
                     ZStack(alignment: isLeadingText ? .leading : .center) {
                         Hexagon()
-                            .fill(color, strokeBorder: Color.white, lineWidth: 2)
+                            .fill(gradient, strokeBorder: Color.white, lineWidth: 2)
                         
                         Text(text)
                             .font(.system(size: 24, weight: .bold, design: .rounded))
@@ -56,9 +56,15 @@ struct HexagonalButton: View {
 
 
 #Preview {
-    HexagonalButton(
+    let previewGradient = LinearGradient(
+        gradient: Gradient(colors: [.yellow, .orange]),
+        startPoint: .top,
+        endPoint: .bottom
+    )
+    
+    return HexagonalButton(
         text: "Game Start Game Start Game Start Game Start Game Start Game Start Game Start",
-        color: .green,
+        gradient: previewGradient,
         width: 250,
         height: 50,
         action: { print("Hello, world!") },

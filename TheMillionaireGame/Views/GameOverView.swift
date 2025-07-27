@@ -24,9 +24,10 @@ struct GameOverView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                background
+                BackgroundView()
                 VStack {
-                    logo
+                    LogoView(size: CGSize(width: UI.Logo.width, height: UI.Logo.height))
+                                            .padding(.top, UI.Logo.topPadding)
                     title
                     
                     if let tookPrize = viewModel.tookMoneyPrize,
@@ -89,20 +90,6 @@ struct GameOverView: View {
     }
     
     // MARK: - Subviews
-    private var background: some View {
-        Image(UI.Background.name)
-            .resizable()
-            .scaledToFill()
-            .ignoresSafeArea()
-    }
-    
-    private var logo: some View {
-        Image(UI.Background.logo)
-            .resizable()
-            .scaledToFit()
-            .frame(width: UI.Logo.width, height: UI.Logo.height)
-            .padding(.top, UI.Logo.topPadding)
-    }
     
     private var title: some View {
         Text(sayGoodBayPhrase)
@@ -136,10 +123,6 @@ struct GameOverView: View {
             static let fontWeight: Font.Weight = .semibold
             static let fontDesign: Font.Design = .default
         }
-        enum Background {
-            static let logo: String = "logo"
-            static let name: String = "background"
-        }
         enum GameOver {
             enum Title {
                 static let text: String = "GAME OVER"
@@ -166,11 +149,36 @@ struct GameOverView: View {
 struct GameOverButtonsView: View {
     let onNewGame: () -> Void
     let onMainScreen: () -> Void
+    
+    // Градиент для желтой кнопки
+    private let yellowGradient = LinearGradient(
+        gradient: Gradient(stops: [
+            .init(color: Color(hex: "#E1CF30"), location: 0.0),
+            .init(color: Color(hex: "#E19A30"), location: 0.3333),
+            .init(color: Color(hex: "#E19A30"), location: 0.7969),
+            .init(color: Color(hex: "#E1CF30"), location: 1.0)
+        ]),
+        startPoint: .top,
+        endPoint: .bottom
+    )
+    
+    // Градиент для синей кнопки
+    private let blueGradient = LinearGradient(
+        gradient: Gradient(stops: [
+            .init(color: Color(hex: "#025D83"), location: 0.0),
+            .init(color: Color(hex: "#022B54"), location: 0.3333),
+            .init(color: Color(hex: "#020631"), location: 0.7969),
+            .init(color: Color(hex: "#083C66"), location: 1.0)
+        ]),
+        startPoint: .top,
+        endPoint: .bottom
+    )
+    
     var body: some View {
         VStack(spacing: 0) {
             HexagonalButton(
                 text: UI.Button.newGameText,
-                color: UI.Button.newGameColor,
+                gradient: yellowGradient, // Используем градиент вместо цвета
                 width: UI.Button.width,
                 height: UI.Button.height,
                 action: onNewGame,
@@ -178,7 +186,7 @@ struct GameOverButtonsView: View {
             )
             HexagonalButton(
                 text: UI.Button.mainScreenText,
-                color: UI.Button.mainScreenColor,
+                gradient: blueGradient, // Используем градиент вместо цвета
                 width: UI.Button.width,
                 height: UI.Button.height,
                 action: onMainScreen,
@@ -191,16 +199,13 @@ struct GameOverButtonsView: View {
     private enum UI {
         enum Button {
             static let newGameText: String = "New game"
-            static let newGameColor: Color = .yellow
             static let mainScreenText: String = "Main screen"
-            static let mainScreenColor: Color = .blue
             static let width: CGFloat = 350
             static let height: CGFloat = 62
             static let mainScreenTopPadding: CGFloat = 8
         }
     }
 }
-
 
 
 

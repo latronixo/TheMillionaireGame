@@ -15,13 +15,11 @@ struct HomeView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                Image(UI.Background.name)
-                    .resizable()
-                    .scaledToFill()
-                    .ignoresSafeArea()
-                
+                BackgroundView()
+                    .edgesIgnoringSafeArea(.all)
                 VStack {
-                    logo
+                    LogoView(size: CGSize(width: UI.Logo.width, height: UI.Logo.height))
+                                            .padding(.top, UI.Logo.topPadding)
                     title
                     BestScoreView()
                     Spacer()
@@ -48,14 +46,7 @@ struct HomeView: View {
     }
 
     // MARK: - Subviews
-    private var logo: some View {
-        Image(UI.Background.logo)
-            .resizable()
-            .scaledToFit()
-            .frame(width: UI.Logo.width, height: UI.Logo.height)
-            .padding(.top, UI.Logo.topPadding)
-    }
-
+    
     private var title: some View {
         Text(UI.Title.text)
             .font(.system(size: UI.Title.fontSize, weight: UI.Title.fontWeight, design: UI.Title.fontDesign))
@@ -92,10 +83,6 @@ struct HomeView: View {
       
         enum HelpIcon {
             static let name: String = "help"
-        }
-        enum Background {
-            static let logo: String = "logo"
-            static let name: String = "background"
         }
     }
 }
